@@ -1,16 +1,18 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
 import * as url from "url";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
 let mainWindow: Electron.BrowserWindow | null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false,
+      // webSecurity: false,
     },
   });
 

@@ -32,7 +32,9 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
+    "@teamsupercell/typings-for-css-modules-loader": "^2.4.0",
     "babel-loader": "^8.1.0",
+    "css-loader": "^5.0.1",
     "electron": "^8.2.2",
     "electron-builder": "^22.7.0",
     "html-webpack-plugin": "^4.2.0",
@@ -43,7 +45,12 @@
   "dependencies": {
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
+    "antd": "^4.8.2",
+    "core-js": "^3.7.0",
+    "opensheetmusicdisplay": "^0.8.7",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "regenerator-runtime": "^0.13.7",
+    "style-loader": "^2.0.0"
   }
 }
