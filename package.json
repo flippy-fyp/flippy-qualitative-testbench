@@ -5,7 +5,7 @@
   "main": "./dist/main.js",
   "scripts": {
     "dev:electron": "NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
-    "dev:react": "NODE_ENV=development webpack-dev-server --config webpack.react.config.js --mode development",
+    "dev:react": "NODE_ENV=development webpack serve --config webpack.react.config.js --mode development",
     "build:electron": "NODE_ENV=production webpack --config webpack.electron.config.js --mode production",
     "build:react": "NODE_ENV=production webpack --config webpack.react.config.js --mode production",
     "build": "npm run build:electron && npm run build:react",
@@ -21,8 +21,9 @@
       "node_modules/",
       "package.json"
     ],
-    "productName": "example",
-    "appId": "com.example.app",
+    "productName": "Flippy from TuneApp",
+    "icon": "assets/icon/favicon.ico",
+    "appId": "tuneapp.flippy",
     "directories": {
       "output": "dist"
     }
@@ -41,8 +42,8 @@
     "style-loader": "^2.0.0",
     "svg-url-loader": "^6.0.0",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-cli": "^4.2.0"
   },
   "dependencies": {
     "@types/react": "^16.9.34",

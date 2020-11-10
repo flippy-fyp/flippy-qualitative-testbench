@@ -1,51 +1,65 @@
-import React, { createRef, useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { message } from 'antd'
 import { OpenSheetMusicDisplay as OSMD } from 'opensheetmusicdisplay'
 import { useLoadingState } from '../../contexts/loadingState'
+import { initialPlayerState, PlayerState } from '../../containers/AppLayout/AppLayout'
 
 interface Props {
-  file: string
+  playerState: PlayerState
+  setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>
 }
 
 const Sheet = (props: Props) => {
-  let osmd: OSMD | undefined = undefined
-
-  const divRef = createRef()
-  const [file, setFile] = useState<string | undefined>(undefined)
+  const divRef = useRef<HTMLDivElement>(null)
   const [_, setLoadingState] = useLoadingState()
-
-  useEffect(() => {
-    osmd = new OSMD(divRef.current as any)
-    loadFile()
-  }, [])
+  const { playerState, setPlayerState } = props
+  const { sheetFile } = playerState
 
   useEffect(() => {
     loadFile()
-  }, [props.file])
+  }, [sheetFile])
 
-  const loadFile = async () => {
-    if (osmd) {
-      if (props.file && file !== props.file) {
-        setLoadingState({ loading: true, loadingText: `Reading "${props.file}"` })
-        setFile(props.file)
-        try {
-          await osmd.load(props.file)
-          await osmd.render()
-        }
-        catch (err) {
-          console.error(err)
-          message.error("Unable to load file")
-          setLoadingState({ loading: false })
-        }
-      }
-    }
-    else {
-      message.error("Cannot load file: OSMD not loaded")
+  // clear the innerHTML of the div before we can redraw
+  // otherwise it will draw at the bottom
+  const clearDivRef = async () => {
+    if (divRef && divRef.current) {
+      divRef.current.innerHTML = "";
     }
   }
 
-  // @ts-ignore
-  return <div ref={divRef} />
+  const loadFile = async () => {
+    await clearDivRef()
+    if (!sheetFile) {
+      setPlayerState(initialPlayerState)
+      return
+    }
+    setLoadingState({ loading: true, loadingText: `Reading "${sheetFile}"...` })
+    try {
+      const osmd = new OSMD(divRef.current as HTMLElement)
+      await osmd.load(sheetFile)
+      osmd.render()
+      setPlayerState({ ...playerState, ready: true })
+    }
+    catch (err) {
+      console.error(err)
+      message.error(`Unable to load "${sheetFile}"`)
+      setPlayerState(initialPlayerState)
+    }
+    setLoadingState({ loading: false })
+  }
+
+  return (
+    <div>
+      <div ref={divRef} />
+      {
+        !sheetFile &&
+        <div style={{ marginTop: 24 }}>
+          <h1>No file loaded.</h1>
+          <p>Please open a file.</p>
+        </div>
+      }
+    </div>
+  )
 }
 
 export default Sheet

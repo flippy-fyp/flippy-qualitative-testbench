@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Modal } from 'antd'
 
 import loadingSVG from './Loading.svg'
@@ -6,28 +6,19 @@ import { useLoadingState } from '../../contexts/loadingState'
 
 
 const Loading = () => {
-  let loadingModal: any = undefined;
   const [loadingState] = useLoadingState()
+  const { loading, loadingText } = loadingState
 
-  useEffect(() => {
-    const { loading, loadingText } = loadingState
-    if (loading) {
-      loadingModal = Modal.info({
-        content: (<div style={{ textAlign: 'center' }}>
-          <h1 style={{ paddingTop: 30, marginBottom: 0, fontSize: '3rem' }}>Loading...</h1>
-          {
-            loadingText && <div style={{ padding: 20, fontSize: '1rem' }}>{loadingText}</div>
-          }
-          <img src={loadingSVG} alt="loading" className="loader" />
-        </div>)
-      })
-    } else {
-      if (loadingModal) {
-        loadingModal.destroy()
-      }
-    }
-  }, [loadingState])
-  return <div />
+  return (
+    <Modal visible={loading} title="Loading..." footer={null} closable={false} centered={true}>
+      <div style={{ textAlign: 'center' }}>
+        {
+          loadingText && <div style={{ padding: 10, fontSize: '1rem' }}>{loadingText}</div>
+        }
+        <img src={loadingSVG} alt="loading" className="loader" />
+      </div>
+    </Modal>
+  )
 }
 
 export default Loading
