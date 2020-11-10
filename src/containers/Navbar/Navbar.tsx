@@ -15,7 +15,13 @@ const Navbar = (props: Props) => {
   const openFile = async () => {
     const fileName = await remote.dialog.showOpenDialog({
       title: `Open MusicXML file`,
-      properties: [`openFile`]
+      properties: [`openFile`],
+      filters: [
+        {
+          name: `MusicXML`,
+          extensions: [`xml`, `mxl`, `musicxml`],
+        }
+      ]
     })
     if (!fileName.canceled && fileName.filePaths.length) {
       setPlayerState({

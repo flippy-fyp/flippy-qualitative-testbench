@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { message } from 'antd'
 import { OpenSheetMusicDisplay as OSMD } from 'opensheetmusicdisplay'
 import { useLoadingState } from '../../contexts/loadingState'
@@ -10,8 +10,7 @@ interface Props {
 }
 
 const Sheet = (props: Props) => {
-  let osmd: OSMD | undefined;
-  const divRef = createRef()
+  const divRef = useRef<HTMLDivElement>(null)
   const [_, setLoadingState] = useLoadingState()
   const { playerState, setPlayerState } = props
   const { sheetFile } = playerState
@@ -20,16 +19,26 @@ const Sheet = (props: Props) => {
     loadFile()
   }, [sheetFile])
 
+  // clear the innerHTML of the div before we can redraw
+  // otherwise it will draw at the bottom
+  const clearDivRef = async () => {
+    if (divRef && divRef.current) {
+      divRef.current.innerHTML = "";
+    }
+  }
+
   const loadFile = async () => {
+    await clearDivRef()
+    if (!sheetFile) {
+      setPlayerState(initialPlayerState)
+      return
+    }
+    setLoadingState({ loading: true, loadingText: `Reading "${sheetFile}"...` })
     try {
-      if (sheetFile) {
-        setLoadingState({ loading: true, loadingText: `Reading "${sheetFile}"...` })
-        osmd = new OSMD(divRef.current as HTMLDivElement, { })
-        await osmd.load(sheetFile)
-        osmd.render()
-        setPlayerState({ ...playerState, ready: true })
-        osmd.clear()
-      }
+      const osmd = new OSMD(divRef.current as HTMLElement)
+      await osmd.load(sheetFile)
+      osmd.render()
+      setPlayerState({ ...playerState, ready: true })
     }
     catch (err) {
       console.error(err)
@@ -41,7 +50,7 @@ const Sheet = (props: Props) => {
 
   return (
     <div>
-      <div ref={divRef as any} />
+      <div ref={divRef} />
       {
         !sheetFile &&
         <div style={{ marginTop: 24 }}>
