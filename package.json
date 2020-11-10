@@ -13,8 +13,8 @@
     "dist": "electron-builder"
   },
   "keywords": [],
-  "author": "elisealcala",
-  "license": "ISC",
+  "author": "lhl2617",
+  "license": "MIT",
   "build": {
     "files": [
       "dist/",
