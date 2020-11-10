@@ -41,8 +41,8 @@
     "style-loader": "^2.0.0",
     "svg-url-loader": "^6.0.0",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-cli": "^4.2.0"
   },
   "dependencies": {
     "@types/react": "^16.9.34",
