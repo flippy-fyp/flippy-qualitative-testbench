@@ -1,7 +1,7 @@
 {
-  "name": "electron-react-ts",
+  "name": "flippy-testbench",
   "version": "1.0.0",
-  "description": "New Electron app",
+  "description": "Testbench",
   "main": "./dist/main.js",
   "scripts": {
     "dev:electron": "NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
@@ -38,6 +38,8 @@
     "electron": "^8.2.2",
     "electron-builder": "^22.7.0",
     "html-webpack-plugin": "^4.2.0",
+    "style-loader": "^2.0.0",
+    "svg-url-loader": "^6.0.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
@@ -50,7 +52,6 @@
     "opensheetmusicdisplay": "^0.8.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "regenerator-runtime": "^0.13.7",
-    "style-loader": "^2.0.0"
+    "regenerator-runtime": "^0.13.7"
   }
 }
