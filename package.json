@@ -21,8 +21,9 @@
       "node_modules/",
       "package.json"
     ],
-    "productName": "example",
-    "appId": "com.example.app",
+    "productName": "Flippy from TuneApp",
+    "icon": "assets/icon/favicon.ico",
+    "appId": "tuneapp.flippy",
     "directories": {
       "output": "dist"
     }

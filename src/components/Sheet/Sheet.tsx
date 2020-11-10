@@ -2,50 +2,55 @@ import React, { createRef, useEffect, useState } from 'react'
 import { message } from 'antd'
 import { OpenSheetMusicDisplay as OSMD } from 'opensheetmusicdisplay'
 import { useLoadingState } from '../../contexts/loadingState'
+import { initialPlayerState, PlayerState } from '../../containers/AppLayout/AppLayout'
 
 interface Props {
-  file: string
+  playerState: PlayerState
+  setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>
 }
 
 const Sheet = (props: Props) => {
-  let osmd: OSMD | undefined = undefined
-
+  let osmd: OSMD | undefined;
   const divRef = createRef()
-  const [file, setFile] = useState<string | undefined>(undefined)
   const [_, setLoadingState] = useLoadingState()
-
-  useEffect(() => {
-    osmd = new OSMD(divRef.current as any)
-    loadFile()
-  }, [])
+  const { playerState, setPlayerState } = props
+  const { sheetFile } = playerState
 
   useEffect(() => {
     loadFile()
-  }, [props.file])
+  }, [sheetFile])
 
   const loadFile = async () => {
-    if (osmd) {
-      if (props.file && file !== props.file) {
-        setLoadingState({ loading: true, loadingText: `Reading "${props.file}"` })
-        setFile(props.file)
-        try {
-          await osmd.load(props.file)
-          await osmd.render()
-        }
-        catch (err) {
-          console.error(err)
-          message.error("Unable to load file")
-          setLoadingState({ loading: false })
-        }
+    try {
+      if (sheetFile) {
+        setLoadingState({ loading: true, loadingText: `Reading "${sheetFile}"...` })
+        osmd = new OSMD(divRef.current as HTMLDivElement, { })
+        await osmd.load(sheetFile)
+        osmd.render()
+        setPlayerState({ ...playerState, ready: true })
+        osmd.clear()
       }
     }
-    else {
-      message.error("Cannot load file: OSMD not loaded")
+    catch (err) {
+      console.error(err)
+      message.error(`Unable to load "${sheetFile}"`)
+      setPlayerState(initialPlayerState)
     }
+    setLoadingState({ loading: false })
   }
 
-  // @ts-ignore
-  return <div ref={divRef} />
+  return (
+    <div>
+      <div ref={divRef as any} />
+      {
+        !sheetFile &&
+        <div style={{ marginTop: 24 }}>
+          <h1>No file loaded.</h1>
+          <p>Please open a file.</p>
+        </div>
+      }
+    </div>
+  )
 }
 
 export default Sheet
