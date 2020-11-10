@@ -9,11 +9,13 @@ interface Props {
   setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>
 }
 
+let osmd: OSMD | undefined;
+
 const Sheet = (props: Props) => {
   const divRef = useRef<HTMLDivElement>(null)
   const [_, setLoadingState] = useLoadingState()
   const { playerState, setPlayerState } = props
-  const { sheetFile } = playerState
+  const { sheetFile, osmd } = playerState
 
   useEffect(() => {
     loadFile()
@@ -28,17 +30,17 @@ const Sheet = (props: Props) => {
   }
 
   const loadFile = async () => {
-    await clearDivRef()
+    clearDivRef()
     if (!sheetFile) {
       setPlayerState(initialPlayerState)
       return
     }
     setLoadingState({ loading: true, loadingText: `Reading "${sheetFile}"...` })
     try {
-      const osmd = new OSMD(divRef.current as HTMLElement)
-      await osmd.load(sheetFile)
-      osmd.render()
-      setPlayerState({ ...playerState, ready: true })
+      const _osmd = new OSMD(divRef.current as HTMLElement)
+      await _osmd.load(sheetFile)
+      _osmd.render()
+      setPlayerState({ ...playerState, ready: true, osmd: _osmd })
     }
     catch (err) {
       console.error(err)
