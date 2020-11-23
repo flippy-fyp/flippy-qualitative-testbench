@@ -46,7 +46,7 @@
     "webpack-cli": "^4.2.0"
   },
   "dependencies": {
-    "@types/react": "^16.9.34",
+    "@types/react": "^17.0.0",
     "@types/react-dom": "^16.9.9",
     "antd": "^4.8.2",
     "core-js": "^3.7.0",
