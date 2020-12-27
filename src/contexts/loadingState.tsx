@@ -18,7 +18,7 @@ const DispatchLoadingStateContext = createContext({} as LoadingStateDispatchType
 
 export const LoadingStateProvider = ({ children }: { children: any }) => {
     const [state, dispatch] = useReducer(
-        (state: LoadingState, newValue: LoadingState) => {
+        (_: LoadingState, newValue: LoadingState) => {
             return newValue
         },
         initialLoadingState
