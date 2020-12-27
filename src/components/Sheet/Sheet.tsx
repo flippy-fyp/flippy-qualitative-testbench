@@ -9,8 +9,6 @@ interface Props {
   setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>
 }
 
-let osmd: OSMD | undefined;
-
 const Sheet = (props: Props) => {
   const divRef = useRef<HTMLDivElement>(null)
   const [_, setLoadingState] = useLoadingState()
