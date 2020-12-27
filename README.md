@@ -1,26 +1,19 @@
-## Electron app.
-### Basic setup with React, Typescript and Webpack.
+# Flippy from TuneApp
 
-To run this project.
+Score-follower front-end
 
-- Clone this repo
 
-```bash
-  git clone https://github.com/elisealcala/electron-react-ts.git
-```
+## Development Setup
 
-- Install the dependencies
+- Install dependencies
 
 ```bash
   npm install
 ```
 
-- Now run these two commands in separate consoles.
+- Run these two commands in separate consoles.
 
 ```bash
   npm run dev:react
-```
-
-```bash
   npm run dev:electron
 ```
