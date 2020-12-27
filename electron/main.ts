@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, protocol } from "electron";
 import * as path from "path";
 import * as url from "url";
 import "core-js/stable";
@@ -11,6 +11,7 @@ function createWindow() {
     width: 1280,
     height: 720,
     webPreferences: {
+      enableRemoteModule: true,
       nodeIntegration: true,
       webSecurity: false,
     },
@@ -36,3 +37,10 @@ function createWindow() {
 
 app.on("ready", createWindow);
 app.allowRendererProcessReuse = true;
+
+app.whenReady().then(() => {
+  protocol.registerFileProtocol('file', (request, callback) => {
+    const pathname = request.url.replace('file:///', '');
+    callback(pathname);
+  });
+});
