@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay'
 import { getDivElement, preludeTestFile, getScore } from '../testutils/testutils';
-import preludeCursorTimingsJson from '../../testxml/prelude-cursor-timings.test.json'
+import preludeCursorTimingsJson from '../../test/testxml/prelude-cursor-timings.test.json'
 import { CursorProcessor, CursorTiming, getRequiredStep } from './cursor';
 
 suite(`Test CursorProcessor`, () => {
