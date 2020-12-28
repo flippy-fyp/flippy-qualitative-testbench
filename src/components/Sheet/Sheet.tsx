@@ -3,6 +3,7 @@ import { message } from 'antd'
 import { OpenSheetMusicDisplay as OSMD } from 'opensheetmusicdisplay'
 import { useLoadingState } from '../../contexts/loadingState'
 import { initialPlayerState, PlayerState } from '../../containers/AppLayout/AppLayout'
+import { CursorProcessor } from '../../utils/cursor/cursor'
 
 interface Props {
   playerState: PlayerState
@@ -13,7 +14,7 @@ const Sheet = (props: Props) => {
   const divRef = useRef<HTMLDivElement>(null)
   const [_, setLoadingState] = useLoadingState()
   const { playerState, setPlayerState } = props
-  const { sheetFile, osmd } = playerState
+  const { sheetFile } = playerState
 
   useEffect(() => {
     loadFile()
@@ -38,7 +39,8 @@ const Sheet = (props: Props) => {
       const _osmd = new OSMD(divRef.current as HTMLElement)
       await _osmd.load(sheetFile)
       _osmd.render()
-      setPlayerState({ ...playerState, ready: true, osmd: _osmd })
+      const cProc = new CursorProcessor(_osmd.cursor)
+      setPlayerState({ ...playerState, ready: true, osmd: _osmd, cursorProcessor: cProc })
     }
     catch (err) {
       console.error(err)
