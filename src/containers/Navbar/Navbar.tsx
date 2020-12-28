@@ -10,7 +10,7 @@ interface Props {
 
 const Navbar = (props: Props) => {
   const { playerState, setPlayerState } = props
-  const { ready, sheetFile } = playerState
+  const { sheetFile, ready } = playerState
 
   const openFile = async () => {
     const fileName = await remote.dialog.showOpenDialog({
@@ -31,6 +31,10 @@ const Navbar = (props: Props) => {
     }
   }
 
+  const reset = async () => {
+    setPlayerState(initialPlayerState)
+  }
+
   return (<PageHeader
     style={{ backgroundColor: '#f3f3f3', padding: '3px 12px' }}
     title="Flippy"
@@ -38,8 +42,11 @@ const Navbar = (props: Props) => {
     extra={
       <div>
         <Button type="primary" onClick={openFile}>Open MusicXML file</Button>
-        <Button disabled={!ready}>Start</Button>
-        <Button disabled={!ready}>Reset</Button>
+        <Button
+          disabled={!ready}
+          onClick={reset}
+          danger
+        >Reset</Button>
       </div>
     }
   />)
