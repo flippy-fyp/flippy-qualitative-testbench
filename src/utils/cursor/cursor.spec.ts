@@ -1,8 +1,8 @@
 import * as assert from 'assert';
 import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay'
 import { getDivElement, preludeTestFile, getScore } from '../testutils/testutils';
-import { initCursorTimings } from './cursor';
 import preludeCursorTimingsJson from '../../testxml/prelude-cursor-timings.test.json'
+import { CursorProcessor } from './cursor';
 
 suite('Test initCursorTimings', () => {
     test(`Test with BWV846 Prelude`, async () => {
@@ -15,8 +15,10 @@ suite('Test initCursorTimings', () => {
 
             await osmd.load(scorePath)
             osmd.render()
+
+            const cProc = new CursorProcessor(osmd)
             
-            const got = initCursorTimings(osmd.cursor)
+            const got = cProc.getCursorTimings()
             const want = preludeCursorTimingsJson
 
             assert.deepEqual(want, got)
