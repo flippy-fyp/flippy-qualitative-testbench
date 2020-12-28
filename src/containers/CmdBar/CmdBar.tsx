@@ -1,5 +1,5 @@
 import { PageHeader, Button, Input } from 'antd'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CmdState, PlayerState } from '../AppLayout/AppLayout'
 
 interface Props {
@@ -13,7 +13,26 @@ const CmdBar = (props: Props) => {
   const { playerState, setPlayerState, cmdState, setCmdState } = props
   const { ready, started } = playerState
 
+  useEffect(() => {
+    const localCmd = window.localStorage.getItem(`cmd`)
+    if (localCmd) {
+      setCmdState({
+        ...cmdState,
+        cmd: localCmd,
+      })
+    }
+  }, [])
+
   const start = () => {
+    // save the cmd to local state
+    try {
+      window.localStorage.setItem(`cmd`, cmdState.cmd)
+    }
+    catch (err) {
+      // best effort
+      console.debug(err)
+    }
+
     setPlayerState({
       ...playerState,
       started: true,
@@ -39,6 +58,7 @@ const CmdBar = (props: Props) => {
     title={``}
     subTitle={
       <Input 
+        disabled={started}
         value={cmdState.cmd} 
         placeholder="Command" 
         style={{ width: `50vw`, fontFamily: `Fira Code, monospace` }} 
@@ -47,7 +67,7 @@ const CmdBar = (props: Props) => {
     }
     extra={
       <div>
-        <Button disabled={!ready} onClick={start}>Start</Button>
+        <Button disabled={!ready || started || cmdState.cmd.length === 0} onClick={start}>Start</Button>
         <Button
           disabled={!ready || !started}
           danger
