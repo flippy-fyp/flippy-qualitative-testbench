@@ -35,8 +35,11 @@
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
     "@teamsupercell/typings-for-css-modules-loader": "^2.4.0",
+    "@types/bluebird": "^3.5.33",
     "@types/expect": "^24.3.0",
     "@types/mocha": "^8.2.0",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.9",
     "babel-loader": "^8.2.2",
     "canvas": "^2.6.1",
     "css-loader": "^5.0.1",
@@ -54,9 +57,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@types/react": "^16.9.34",
-    "@types/react-dom": "^16.9.9",
     "antd": "^4.9.4",
+    "binary-search-bounds": "^2.0.4",
     "bluebird": "^3.7.2",
     "core-js": "^3.8.1",
     "opensheetmusicdisplay": "^0.8.7",

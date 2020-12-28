@@ -1,4 +1,7 @@
-import { OpenSheetMusicDisplay, Cursor, VoiceEntry } from "opensheetmusicdisplay/build/dist/src";
+import { Cursor, VoiceEntry } from "opensheetmusicdisplay/build/dist/src";
+import * as bounds from 'binary-search-bounds'
+import { CancellablePromise } from "../bluebird/promise";
+import Bluebird from "bluebird";
 
 export type CursorTiming = {
     stepNumber: number
@@ -6,18 +9,12 @@ export type CursorTiming = {
 }
 
 export class CursorProcessor {
-    // private sheet: MusicSheet
     private cursor: Cursor
-
-    // private defaultBpm: number = 120
     private cursorTimings: CursorTiming[] = []
+    private currStep: number = 0
 
-    constructor(osmd: OpenSheetMusicDisplay) {
-        // this.sheet = osmd.Sheet
-        // if (this.sheet.HasBPMInfo) this.defaultBpm = this.sheet.DefaultStartTempoInBpm
-
-        this.cursor = osmd.cursor
-
+    constructor(cursor: Cursor) {
+        this.cursor = cursor
         this.initCursorTimings()
     }
 
@@ -29,8 +26,43 @@ export class CursorProcessor {
     }
 
     /**
-     * Returns cursor iterator timings
-     * @param cursor OSMD cursor
+     * Moves the cursor to the closest step given the timestamp. If tie between a previous and next
+     * timestamp, prefer the previous step.
+     * 
+     * Cancellable.
+     * 
+     * @param timestamp float, in seconds
+     */
+    public moveCursor = (timestamp: number): Bluebird<void> => {
+        return new CancellablePromise<void>((resolve, reject, onCancel) => {
+            if (onCancel) {
+                onCancel(() => {
+                    console.debug(`moveCursor Cancelled`)
+                })
+            }
+            try {
+                if (this.cursor.hidden) this.cursor.show()
+                const requiredStep = getRequiredStep(this.cursorTimings, timestamp)
+    
+                if (requiredStep < this.currStep) {
+                    this.cursor.reset()
+                }
+    
+                while (this.currStep < requiredStep) {
+                    this.cursor.next()
+                    this.currStep++
+                }
+    
+                resolve()
+            }
+            catch (err) {
+                reject(err)
+            }
+        })
+    }
+
+    /**
+     * Initialises this.cursorTimings
      */
     private initCursorTimings = () => {
         this.cursor.reset()
@@ -53,7 +85,7 @@ export class CursorProcessor {
         }
 
         // sort by timestamp
-        this.cursorTimings.sort((a, b) => a.timestamp - b.timestamp)
+        this.cursorTimings.sort(cursorTimingByTimestamp)
 
         this.cursor.reset()
     }
@@ -74,3 +106,28 @@ export class CursorProcessor {
     }
 }
 
+const cursorTimingByTimestamp = (a: CursorTiming, b: CursorTiming) => a.timestamp - b.timestamp
+
+/**
+ * Get the required step number based on the given timestamp.
+ * Based on the closest time difference possible. If tie, return the preceding step.
+ * 
+ * @param cursorTimings 
+ * @param timestamp 
+ */
+export const getRequiredStep = (cursorTimings: CursorTiming[], timestamp: number): number => {
+    const ref: CursorTiming = { timestamp: timestamp, stepNumber: 0 }
+    const prevIndex = bounds.le(cursorTimings, ref, cursorTimingByTimestamp)
+    const nextIndex = bounds.ge(cursorTimings, ref, cursorTimingByTimestamp)
+
+    if (prevIndex < 0) return 0
+    if (nextIndex >= cursorTimings.length) return cursorTimings.last().stepNumber
+
+    const prev = cursorTimings[prevIndex]
+    const next = cursorTimings[nextIndex]
+
+    const prevDiff = Math.abs(timestamp - prev.timestamp)
+    const nextDiff = Math.abs(timestamp - next.timestamp)
+    
+    return prevDiff <= nextDiff ? prev.stepNumber : next.stepNumber
+}
