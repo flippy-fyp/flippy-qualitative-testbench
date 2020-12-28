@@ -17,3 +17,15 @@ Score-follower front-end
   npm run dev:react
   npm run dev:electron
 ```
+
+- Run tests
+
+```bash
+  npm test
+```
+
+- Build
+
+```bash
+  npm run build
+```
