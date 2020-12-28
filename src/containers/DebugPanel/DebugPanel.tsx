@@ -16,7 +16,7 @@ const DebugPanel = (props: Props) => {
 
 
   return (<PageHeader
-    style={{ backgroundColor: '#e0e0e0', padding: '3px 12px' }}
+    style={{ backgroundColor: '#ffaaaa', padding: '3px 12px' }}
     title="DEBUG PANEL"
     extra={
       <span>
