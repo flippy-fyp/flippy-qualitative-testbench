@@ -5,11 +5,13 @@ import DebugPanel from '../DebugPanel/DebugPanel'
 import Navbar from '../Navbar/Navbar'
 import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay'
 import CmdBar from '../CmdBar/CmdBar'
+import { CursorProcessor } from '../../utils/cursor/cursor'
 
 export type PlayerState = {
   sheetFile: string | undefined
   ready: boolean 
   started: boolean
+  cursorProcessor: CursorProcessor | undefined
   osmd: OpenSheetMusicDisplay | undefined
 }
 
@@ -17,6 +19,7 @@ export const initialPlayerState: PlayerState = {
   sheetFile: undefined,
   ready: false,
   started: false,
+  cursorProcessor: undefined,
   osmd: undefined
 }
 
