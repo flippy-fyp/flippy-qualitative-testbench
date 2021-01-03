@@ -41,7 +41,7 @@ const Navbar = (props: Props) => {
     subTitle={sheetFile ?? null}
     extra={
       <div>
-        <Button type="primary" onClick={openFile}>Open MusicXML file</Button>
+        <Button type="primary" disabled={ready} onClick={openFile}>Open MusicXML file</Button>
         <Button
           disabled={!ready}
           onClick={reset}
