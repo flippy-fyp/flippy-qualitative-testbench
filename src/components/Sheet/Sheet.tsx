@@ -36,7 +36,7 @@ const Sheet = (props: Props) => {
     }
     setLoadingState({ loading: true, loadingText: `Reading "${sheetFile}"...` })
     try {
-      const _osmd = new OSMD(divRef.current as HTMLElement)
+      const _osmd = new OSMD(divRef.current as HTMLElement, { followCursor: true })
       await _osmd.load(sheetFile)
       _osmd.render()
       const cProc = new CursorProcessor(_osmd.cursor)
