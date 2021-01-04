@@ -15,5 +15,5 @@ export const getScore = (scoreFileName: string): string => {
 }
 
 export const getAbsScorePath = (scoreFileName: string): string => {
-    return path.join(__dirname, `..`, `..`, `testxml`, scoreFileName)
+    return path.join(__dirname, `..`, `..`, `test`, `testxml`, scoreFileName)
 }
