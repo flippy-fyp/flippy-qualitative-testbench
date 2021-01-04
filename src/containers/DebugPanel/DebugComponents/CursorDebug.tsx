@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Cursor } from 'opensheetmusicdisplay'
 import { Button } from 'antd'
 
@@ -7,6 +7,7 @@ interface Props {
 }
 
 const CursorDebug = (props: Props) => {
+  const stepRef = useRef<number>(0)
   const { cursor } = props
 
   const hide = async () => {
@@ -18,10 +19,13 @@ const CursorDebug = (props: Props) => {
   }
 
   const next = async () => {
+    stepRef.current++
+    console.debug(stepRef.current)
     cursor.next()
   }
 
   const reset = async () => {
+    stepRef.current = 0
     cursor.reset()
   }
 

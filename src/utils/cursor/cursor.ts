@@ -25,6 +25,10 @@ export class CursorProcessor {
         return this.cursorTimings
     }
 
+    public showCursor = () => {
+        this.cursor.show()
+    }
+
     /**
      * Moves the cursor to the closest step given the timestamp. If tie between a previous and next
      * timestamp, prefer the previous step.
@@ -42,7 +46,6 @@ export class CursorProcessor {
                 })
             }
             try {
-                if (this.cursor.hidden) this.cursor.show()
                 const requiredStep = getRequiredStep(this.cursorTimings, timestamp)
                 console.debug(`MoveCursor to step: ${requiredStep}`)
     
@@ -69,6 +72,7 @@ export class CursorProcessor {
     public reset = () => {
         this.cursor.reset()
         this.cursor.hide()
+        this.currStep = 0
     }
 
     /**

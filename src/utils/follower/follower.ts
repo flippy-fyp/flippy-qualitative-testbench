@@ -1,20 +1,24 @@
 import { CancellablePromise } from "../bluebird/promise";
 import { CursorProcessor } from "../cursor/cursor";
-import shellescape from 'shell-escape'
+// import shellescape from 'shell-escape'
 import * as cp from 'child_process'
 import Bluebird from "bluebird";
+import { message } from "antd";
 
 export class Follower {
     private cursorProcessor: CursorProcessor
     private cursorProcessorPromise: Bluebird<void> | undefined
-    private escapedCmd: string
+    private cmd: string[]
     private started: boolean = false
-    private onStop: (() => void) | undefined = undefined
+    private onStop: ((err?: string) => void) | undefined = undefined
     private ready: boolean = false
 
     constructor(cursorProcessor: CursorProcessor, cmd: string) {
         this.cursorProcessor = cursorProcessor
-        this.escapedCmd = shellescape(cmd.split(/[ ,]+/))
+        this.cmd = cmd.trim().split(/[ ,]+/)
+        if (this.cmd.length === 0) {
+            throw new Error(`Empty cmd string`)
+        }
     }
 
     /**
@@ -23,7 +27,7 @@ export class Follower {
      * @param onReady Callback when the follower process is ready
      * @param onStop Callback when the follower process is stopped
      */
-    public start = (onReady: () => void, onStop: () => void) => {
+    public start = (onReady: () => void, onStop: (err?: string) => void) => {
         if (this.started) {
             throw new Error(`Follower already started`)
         }
@@ -39,7 +43,6 @@ export class Follower {
             }
             try {
                 this.runCmd(onReady, onStop)
-                resolve()
             }
             catch (err) {
                 reject(err)
@@ -59,6 +62,7 @@ export class Follower {
         if (!this.ready) {
             if (lines.contains(`READY`)) {
                 this.ready = true
+                this.cursorProcessor.showCursor()
                 onReady()
             }
         }
@@ -77,10 +81,11 @@ export class Follower {
     /**
      * Runs the follow command
      */
-    private runCmd = async (onReady: () => void, onStop: () => void) => {
-        const proc = cp.spawn(this.escapedCmd)
+    private runCmd = async (onReady: () => void, onStop: (err?: string) => void) => {
+        const proc = cp.spawn(this.cmd[0], this.cmd.slice(1))
+        console.debug(`spawned "${this.cmd.join(` `)}"`)
 
-        this.onStop = () => {
+        this.onStop = (err?: string) => {
             if (!proc.killed) {
                 proc.kill(`SIGKILL`)
             }
@@ -88,14 +93,14 @@ export class Follower {
                 this.cursorProcessorPromise.cancel()
                 this.cursorProcessor.reset()
             } 
-            onStop()
+            onStop(err)
         }
         
         let stderrData = ``;
 
         proc.stdout.on(`data`, (data) => {
             console.debug(`stdout: ${data}`)
-            this.processStdout(data, onReady)
+            this.processStdout(data.toString(), onReady)
         })
 
         proc.stderr.on(`data`, (data) => {
@@ -104,10 +109,14 @@ export class Follower {
 
         proc.on(`close`, (code) => {
             console.debug(`Process exited with code ${code}`)
-            if (this.onStop) this.onStop()
-            if (code !== 0) {
-                throw new Error(`Process exited with code ${code}. stderr: ${stderrData}`)
+            let errMsg: string|undefined = undefined
+
+            if (code !== 0 && code !== null) {
+                errMsg = `Process exited with code ${code}.`
+                console.error(`stderr: ${stderrData}`)
             }
+            
+            if (this.onStop) this.onStop(errMsg)
         })
     } 
 }

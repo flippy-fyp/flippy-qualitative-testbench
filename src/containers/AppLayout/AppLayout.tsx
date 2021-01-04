@@ -4,8 +4,9 @@ import { devMode } from '../../globals'
 import DebugPanel from '../DebugPanel/DebugPanel'
 import Navbar from '../Navbar/Navbar'
 import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay'
-import CmdBar from '../CmdBar/CmdBar'
+import CmdBar from '../../components/CmdBar/CmdBar'
 import { CursorProcessor } from '../../utils/cursor/cursor'
+import { Follower } from 'src/utils/follower/follower'
 
 export type PlayerState = {
   sheetFile: string | undefined
