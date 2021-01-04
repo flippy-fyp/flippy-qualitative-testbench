@@ -61,7 +61,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "antd": "^4.9.4",
+    "antd": "^4.10.0",
     "binary-search-bounds": "^2.0.4",
     "bluebird": "^3.7.2",
     "core-js": "^3.8.1",
