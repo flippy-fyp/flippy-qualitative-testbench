@@ -14,7 +14,7 @@ if __name__ == '__main__':
         '--ready',
         type=float,
         help='The time (in seconds) before READY is output',
-        default=5.0,
+        default=1.0,
     )    
     parser.add_argument(
         '--interval',
@@ -51,11 +51,11 @@ if __name__ == '__main__':
 
     eprint('started')
     time.sleep(ready)
-    print('READY')
+    print('READY', flush=True)
 
     acc = 0.0
     for i in range(limit):
-        print(acc)
+        print(acc, flush=True)
         time.sleep(interval)
         acc += diff
 
