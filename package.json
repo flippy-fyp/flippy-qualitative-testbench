@@ -22,7 +22,7 @@
       "node_modules/",
       "package.json"
     ],
-    "productName": "Flippy from TuneApp",
+    "productName": "Flippy Qualitative Testbench",
     "icon": "assets/icon/favicon.ico",
     "appId": "tuneapp.flippy",
     "directories": {
