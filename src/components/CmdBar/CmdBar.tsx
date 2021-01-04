@@ -28,6 +28,7 @@ const CmdBar = (props: Props) => {
     }
   }, [])
 
+
   const start = () => {
     console.debug(`starting`)
     setLoading({ loading: true, loadingText: `Firing up the follower` })

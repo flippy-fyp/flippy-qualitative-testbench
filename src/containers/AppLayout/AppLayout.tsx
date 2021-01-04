@@ -10,7 +10,7 @@ import { Follower } from 'src/utils/follower/follower'
 
 export type PlayerState = {
   sheetFile: string | undefined
-  ready: boolean 
+  ready: boolean
   started: boolean
   cursorProcessor: CursorProcessor | undefined
   osmd: OpenSheetMusicDisplay | undefined
@@ -44,10 +44,14 @@ const AppLayout = () => {
         margin: `auto`,
       }}
     >
-      <Navbar playerState={playerState} setPlayerState={setPlayerState}/>
-      <CmdBar playerState={playerState} setPlayerState={setPlayerState} cmdState={cmdState} setCmdState={setCmdState}/>
-      {showDebugPanel && <DebugPanel playerState={playerState} setPlayerState={setPlayerState}/>}
-      <Sheet playerState={playerState} setPlayerState={setPlayerState}/>
+      <div style={{ position: `fixed`, width: `100%`, top: 0, zIndex: 1000 }}>
+        <Navbar playerState={playerState} setPlayerState={setPlayerState} />
+        <CmdBar playerState={playerState} setPlayerState={setPlayerState} cmdState={cmdState} setCmdState={setCmdState} />
+        {showDebugPanel && <DebugPanel playerState={playerState} setPlayerState={setPlayerState} />}
+      </div>
+      <div style={{ paddingTop: 100 }}>
+        <Sheet playerState={playerState} setPlayerState={setPlayerState} />
+      </div>
     </div>
   )
 }
