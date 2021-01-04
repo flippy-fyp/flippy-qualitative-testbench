@@ -1,9 +1,7 @@
 import { CancellablePromise } from "../bluebird/promise";
 import { CursorProcessor } from "../cursor/cursor";
-// import shellescape from 'shell-escape'
 import * as cp from 'child_process'
 import Bluebird from "bluebird";
-import { message } from "antd";
 
 export class Follower {
     private cursorProcessor: CursorProcessor
