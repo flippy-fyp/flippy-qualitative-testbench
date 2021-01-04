@@ -40,6 +40,12 @@ if __name__ == '__main__':
         help='Exit code when done',
         default=0,
     )
+    parser.add_argument(
+        '--startnum',
+        type=float,
+        help='Start value',
+        default=0.0,
+    )
 
     args = parser.parse_args()
 
@@ -53,7 +59,7 @@ if __name__ == '__main__':
     time.sleep(ready)
     print('READY', flush=True)
 
-    acc = 0.0
+    acc = args.startnum
     for i in range(limit):
         print(acc, flush=True)
         time.sleep(interval)

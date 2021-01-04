@@ -10,7 +10,7 @@ interface Props {
 
 const Navbar = (props: Props) => {
   const { playerState, setPlayerState } = props
-  const { sheetFile, ready } = playerState
+  const { sheetFile, ready, started } = playerState
 
   const openFile = async () => {
     const fileName = await remote.dialog.showOpenDialog({
@@ -43,7 +43,7 @@ const Navbar = (props: Props) => {
       <div>
         <Button type="primary" disabled={ready} onClick={openFile}>Open MusicXML file</Button>
         <Button
-          disabled={!ready}
+          disabled={!ready || started}
           onClick={reset}
           danger
         >Reset</Button>
