@@ -54,17 +54,15 @@ const CmdBar = (props: Props) => {
           console.debug(`Follower ready`)
           setLoading({ loading: false })
         },
-        (err?: string) => {
+        () => {
           console.debug(`Follower stopped`)
           followerPromiseRef.current = undefined
-          if (err) message.error(err)
           setLoading({ loading: false })
           stop()
         }).catch((err) => {
-          console.error(`Error in follower start`)
           setLoading({ loading: false })
           console.error(err)
-          message.error(`Something went wrong. Check your command.`)
+          message.error(`Something went wrong.`)
         })
 
       setPlayerState({

@@ -48,7 +48,7 @@
     "css-loader": "^5.0.1",
     "electron": "^11.1.1",
     "electron-builder": "^22.9.1",
-    "html-webpack-plugin": "^4.5.0",
+    "html-webpack-plugin": "^4.5.1",
     "ignore-loader": "^0.1.2",
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2",
@@ -57,11 +57,11 @@
     "svg-url-loader": "^7.1.1",
     "ts-mocha": "^8.0.0",
     "webpack": "^4.42.1",
-    "webpack-cli": "^4.3.0",
+    "webpack-cli": "^4.3.1",
     "webpack-dev-server": "^3.11.1"
   },
   "dependencies": {
-    "antd": "^4.9.4",
+    "antd": "^4.10.0",
     "binary-search-bounds": "^2.0.4",
     "bluebird": "^3.7.2",
     "core-js": "^3.8.1",
