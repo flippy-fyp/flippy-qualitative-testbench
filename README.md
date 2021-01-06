@@ -1,7 +1,6 @@
-# Flippy from TuneApp
+# Flippy Qualitative Testbench
 
-Score-follower front-end
-
+Score-follower qualitative testbench.
 
 ## Development Setup
 

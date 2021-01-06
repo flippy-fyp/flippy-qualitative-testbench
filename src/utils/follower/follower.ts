@@ -8,7 +8,7 @@ export class Follower {
     private cursorProcessorPromise: Bluebird<void> | undefined
     private cmd: string[]
     private started: boolean = false
-    private onStop: ((err?: string) => void) | undefined = undefined
+    private onStop: (() => void) | undefined = undefined
     private ready: boolean = false
 
     constructor(cursorProcessor: CursorProcessor, cmd: string) {
@@ -25,7 +25,7 @@ export class Follower {
      * @param onReady Callback when the follower process is ready
      * @param onStop Callback when the follower process is stopped
      */
-    public start = (onReady: () => void, onStop: (err?: string) => void) => {
+    public start = (onReady: () => void, onStop: () => void) => {
         if (this.started) {
             throw new Error(`Follower already started`)
         }
@@ -37,10 +37,11 @@ export class Follower {
                         console.debug(`Follower stopped`)
                         this.onStop()
                     }
-                })  
+                })
             }
             try {
-                this.runCmd(onReady, onStop)
+                await this.runCmd(onReady, onStop)
+                resolve()
             }
             catch (err) {
                 reject(err)
@@ -79,44 +80,47 @@ export class Follower {
     /**
      * Runs the follow command
      */
-    private runCmd = async (onReady: () => void, onStop: (err?: string) => void) => {
-        const proc = cp.spawn(this.cmd[0], this.cmd.slice(1))
-        console.debug(`spawned "${this.cmd.join(` `)}"`)
+    private runCmd = async (onReady: () => void, onStop: () => void) => {
+        return new Promise<void>((resolve, reject) => {
+            const proc = cp.spawn(this.cmd[0], this.cmd.slice(1))
+            console.debug(`spawned "${this.cmd.join(` `)}"`)
 
-        this.onStop = (err?: string) => {
-            if (!proc.killed) {
-                proc.kill(`SIGKILL`)
+            this.onStop = () => {
+                if (!proc.killed) {
+                    proc.kill(`SIGKILL`)
+                }
+                if (this.cursorProcessorPromise) {
+                    this.cursorProcessorPromise.cancel()
+                    this.cursorProcessor.reset()
+                }
+                onStop()
             }
-            if (this.cursorProcessorPromise) {
-                this.cursorProcessorPromise.cancel()
-                this.cursorProcessor.reset()
-            } 
-            onStop(err)
-        }
-        
-        let stderrData = ``;
 
-        proc.stdout.on(`data`, (data) => {
-            console.debug(`stdout: ${data}`)
-            this.processStdout(data.toString(), onReady)
+            let stderrData = ``;
+
+            proc.stdout.on(`data`, (data) => {
+                console.debug(`stdout: ${data}`)
+                this.processStdout(data.toString(), onReady)
+            })
+
+            proc.stderr.on(`data`, (data) => {
+                stderrData += data
+            })
+
+            proc.on(`close`, (code) => {
+                console.debug(`Process exited with code ${code}`)
+
+                if (this.onStop) this.onStop()
+
+                if (code !== 0 && code !== null) {
+                    console.error(`stderr: ${stderrData}`)
+                    reject(`Process exited with code ${code}.`)
+                }
+
+                resolve()
+            })
         })
-
-        proc.stderr.on(`data`, (data) => {
-            stderrData += data
-        })
-
-        proc.on(`close`, (code) => {
-            console.debug(`Process exited with code ${code}`)
-            let errMsg: string|undefined = undefined
-
-            if (code !== 0 && code !== null) {
-                errMsg = `Process exited with code ${code}.`
-                console.error(`stderr: ${stderrData}`)
-            }
-            
-            if (this.onStop) this.onStop(errMsg)
-        })
-    } 
+    }
 }
 
 
@@ -125,7 +129,7 @@ export class Follower {
  * 
  * @param lines An array of lines
  */
-export const getLastLineNumber = async (lines: string[]): Promise<number|undefined> => {
+export const getLastLineNumber = async (lines: string[]): Promise<number | undefined> => {
     for (let i = lines.length - 1; i >= 0; --i) {
         const l = lines[i]
         const num = parseFloat(l)
