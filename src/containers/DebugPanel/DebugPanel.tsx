@@ -14,17 +14,18 @@ const DebugPanel = (props: Props) => {
   const { playerState } = props
   const { osmd } = playerState
 
-
-  return (<PageHeader
-    style={{ backgroundColor: '#ffaaaa', padding: '3px 12px' }}
-    title="DEBUG PANEL"
-    extra={
-      <span>
-        {osmd && <span>OSMD OK{'  '}</span>}
-        {osmd && cursorDebug && <CursorDebug cursor={osmd.cursor} />}
-      </span >
-    }
-  />)
+  return (
+    <PageHeader
+      style={{ backgroundColor: '#ffaaaa', padding: '3px 12px' }}
+      title="DEBUG PANEL"
+      extra={
+        <span>
+          {osmd && <span>OSMD OK{'  '}</span>}
+          {osmd && cursorDebug && <CursorDebug cursor={osmd.cursor} />}
+        </span>
+      }
+    />
+  )
 }
 
 export default DebugPanel

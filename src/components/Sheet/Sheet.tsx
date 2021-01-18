@@ -2,7 +2,10 @@ import React, { useEffect, useRef } from 'react'
 import { message } from 'antd'
 import { OpenSheetMusicDisplay as OSMD } from 'opensheetmusicdisplay'
 import { useLoadingState } from '../../contexts/loadingState'
-import { initialPlayerState, PlayerState } from '../../containers/AppLayout/AppLayout'
+import {
+  initialPlayerState,
+  PlayerState,
+} from '../../containers/AppLayout/AppLayout'
 import { CursorProcessor } from '../../utils/cursor/cursor'
 
 interface Props {
@@ -24,7 +27,7 @@ const Sheet = (props: Props) => {
   // otherwise it will draw at the bottom
   const clearDivRef = async () => {
     if (divRef && divRef.current) {
-      divRef.current.innerHTML = "";
+      divRef.current.innerHTML = ''
     }
   }
 
@@ -36,13 +39,19 @@ const Sheet = (props: Props) => {
     }
     setLoadingState({ loading: true, loadingText: `Reading "${sheetFile}"...` })
     try {
-      const _osmd = new OSMD(divRef.current as HTMLElement, { followCursor: true })
-      await _osmd.load(sheetFile)
-      _osmd.render()
-      const cProc = new CursorProcessor(_osmd.cursor, _osmd.Sheet)
-      setPlayerState({ ...playerState, ready: true, osmd: _osmd, cursorProcessor: cProc })
-    }
-    catch (err) {
+      const osmd = new OSMD(divRef.current as HTMLElement, {
+        followCursor: true,
+      })
+      await osmd.load(sheetFile)
+      osmd.render()
+      const cProc = new CursorProcessor(osmd.cursor, osmd.Sheet)
+      setPlayerState({
+        ...playerState,
+        ready: true,
+        osmd,
+        cursorProcessor: cProc,
+      })
+    } catch (err) {
       console.error(err)
       message.error(`Unable to load "${sheetFile}"`)
       setPlayerState(initialPlayerState)
@@ -53,13 +62,12 @@ const Sheet = (props: Props) => {
   return (
     <div>
       <div ref={divRef} />
-      {
-        !sheetFile &&
+      {!sheetFile && (
         <div style={{ marginTop: 24 }}>
           <h1>No file loaded.</h1>
           <p>Please open a file.</p>
         </div>
-      }
+      )}
     </div>
   )
 }

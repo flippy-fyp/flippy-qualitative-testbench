@@ -1,7 +1,7 @@
 import React from 'react'
 import { PageHeader, Button } from 'antd'
-import { initialPlayerState, PlayerState } from '../AppLayout/AppLayout'
 import { remote } from 'electron'
+import { initialPlayerState, PlayerState } from '../AppLayout/AppLayout'
 
 interface Props {
   playerState: PlayerState
@@ -20,8 +20,8 @@ const Navbar = (props: Props) => {
         {
           name: `MusicXML`,
           extensions: [`xml`, `mxl`, `musicxml`],
-        }
-      ]
+        },
+      ],
     })
     if (!fileName.canceled && fileName.filePaths.length) {
       setPlayerState({
@@ -35,21 +35,23 @@ const Navbar = (props: Props) => {
     setPlayerState(initialPlayerState)
   }
 
-  return (<PageHeader
-    style={{ backgroundColor: '#f3f3f3', padding: '3px 12px' }}
-    title="Flippy - Qualitative Testbench"
-    subTitle={sheetFile ?? null}
-    extra={
-      <div>
-        <Button type="primary" disabled={ready} onClick={openFile}>Open MusicXML file</Button>
-        <Button
-          disabled={!ready || started}
-          onClick={reset}
-          danger
-        >Reset</Button>
-      </div>
-    }
-  />)
+  return (
+    <PageHeader
+      style={{ backgroundColor: '#f3f3f3', padding: '3px 12px' }}
+      title="Flippy - Qualitative Testbench"
+      subTitle={sheetFile ?? null}
+      extra={
+        <div>
+          <Button type="primary" disabled={ready} onClick={openFile}>
+            Open MusicXML file
+          </Button>
+          <Button disabled={!ready || started} onClick={reset} danger>
+            Reset
+          </Button>
+        </div>
+      }
+    />
+  )
 }
 
 export default Navbar

@@ -1,29 +1,29 @@
-import { getLastLineNumber } from "./follower"
-import * as assert from 'assert';
+import * as assert from 'assert'
+import { getLastLineNumber } from './follower'
 
 suite(`Test getLastLineNumber`, () => {
     const cases = [
         {
-            name: "Empty",
+            name: 'Empty',
             lines: [],
             want: undefined,
         },
         {
-            name: "One",
+            name: 'One',
             lines: [`3.14`],
             want: parseFloat(`3.14`),
         },
         {
-            name: "non floats",
+            name: 'non floats',
             lines: [`foo`, `bar`],
             want: undefined,
         },
         {
-            name: "get last float",
+            name: 'get last float',
             lines: [`3.14`, `6.28`, `42`, `foo`, `bar`],
             want: parseFloat(`42`),
         },
-    ]  
+    ]
 
     for (const tc of cases) {
         test(tc.name, async () => {
