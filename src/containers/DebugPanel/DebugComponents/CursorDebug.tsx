@@ -29,13 +29,15 @@ const CursorDebug = (props: Props) => {
     cursor.reset()
   }
 
-  return <div>
-    Cursor:{'   '}
-    <Button onClick={hide}>Hide</Button>
-    <Button onClick={show}>Show</Button>
-    <Button onClick={next}>Next</Button>
-    <Button onClick={reset}>Reset</Button>
-  </div>
+  return (
+    <div>
+      Cursor:{'   '}
+      <Button onClick={hide}>Hide</Button>
+      <Button onClick={show}>Show</Button>
+      <Button onClick={next}>Next</Button>
+      <Button onClick={reset}>Reset</Button>
+    </div>
+  )
 }
 
 export default CursorDebug

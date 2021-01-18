@@ -1,14 +1,37 @@
-import { CancellablePromise } from "../bluebird/promise";
-import { CursorProcessor } from "../cursor/cursor";
 import * as cp from 'child_process'
-import Bluebird from "bluebird";
+import Bluebird from 'bluebird'
+import { CancellablePromise } from '../bluebird/promise'
+import { CursorProcessor } from '../cursor/cursor'
+
+/**
+ * Try to get a number in the last line given an array of string lines.
+ *
+ * @param lines An array of lines
+ */
+export const getLastLineNumber = async (
+    lines: string[]
+): Promise<number | undefined> => {
+    for (let i = lines.length - 1; i >= 0; --i) {
+        const l = lines[i]
+        const num = parseFloat(l)
+        if (!Number.isNaN(num)) {
+            return num
+        }
+    }
+    return undefined
+}
 
 export class Follower {
     private cursorProcessor: CursorProcessor
+
     private cursorProcessorPromise: Bluebird<void> | undefined
+
     private cmd: string[]
+
     private started: boolean = false
+
     private onStop: (() => void) | undefined = undefined
+
     private ready: boolean = false
 
     constructor(cursorProcessor: CursorProcessor, cmd: string) {
@@ -20,8 +43,8 @@ export class Follower {
     }
 
     /**
-     * Returns a cancellable promise 
-     * 
+     * Returns a cancellable promise
+     *
      * @param onReady Callback when the follower process is ready
      * @param onStop Callback when the follower process is stopped
      */
@@ -29,34 +52,35 @@ export class Follower {
         if (this.started) {
             throw new Error(`Follower already started`)
         }
-        return new CancellablePromise<void>(async (resolve, reject, onCancel) => {
-            if (onCancel) {
-                onCancel(() => {
-                    console.debug(`Follower promise cancelled`)
-                    if (this.onStop) {
-                        console.debug(`Follower stopped`)
-                        this.onStop()
-                    }
-                })
+        return new CancellablePromise<void>(
+            async (resolve, reject, onCancel) => {
+                if (onCancel) {
+                    onCancel(() => {
+                        console.debug(`Follower promise cancelled`)
+                        if (this.onStop) {
+                            console.debug(`Follower stopped`)
+                            this.onStop()
+                        }
+                    })
+                }
+                try {
+                    await this.runCmd(onReady, onStop)
+                    resolve()
+                } catch (err) {
+                    reject(err)
+                }
             }
-            try {
-                await this.runCmd(onReady, onStop)
-                resolve()
-            }
-            catch (err) {
-                reject(err)
-            }
-        })
+        )
     }
 
     /**
      * Processes (partial) stdout obtained from the follower process
-     * 
+     *
      * @param data stdout string data
      * @param onReady Callback when the follower process is ready
      */
     private processStdout = async (data: string, onReady: () => void) => {
-        const lines = data.split(/\r?\n/).map(s => s.trim())
+        const lines = data.split(/\r?\n/).map((s) => s.trim())
 
         if (!this.ready) {
             if (lines.contains(`READY`)) {
@@ -72,7 +96,9 @@ export class Follower {
                 if (this.cursorProcessorPromise) {
                     this.cursorProcessorPromise.cancel()
                 }
-                this.cursorProcessorPromise = this.cursorProcessor.moveCursor(lastLineNumber)
+                this.cursorProcessorPromise = this.cursorProcessor.moveCursor(
+                    lastLineNumber
+                )
             }
         }
     }
@@ -96,7 +122,7 @@ export class Follower {
                 onStop()
             }
 
-            let stderrData = ``;
+            let stderrData = ``
 
             proc.stdout.on(`data`, (data) => {
                 console.debug(`stdout: ${data}`)
@@ -114,28 +140,11 @@ export class Follower {
 
                 if (code !== 0 && code !== null) {
                     console.error(`stderr: ${stderrData}`)
-                    reject(`Process exited with code ${code}.`)
+                    reject(new Error(`Process exited with code ${code}.`))
                 }
 
                 resolve()
             })
         })
     }
-}
-
-
-/**
- * Try to get a number in the last line given an array of string lines.
- * 
- * @param lines An array of lines
- */
-export const getLastLineNumber = async (lines: string[]): Promise<number | undefined> => {
-    for (let i = lines.length - 1; i >= 0; --i) {
-        const l = lines[i]
-        const num = parseFloat(l)
-        if (!isNaN(num)) {
-            return num
-        }
-    }
-    return undefined
 }

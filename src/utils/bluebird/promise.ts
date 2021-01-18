@@ -5,4 +5,3 @@ cancellablePromise.config({
 })
 
 export const CancellablePromise = cancellablePromise
-

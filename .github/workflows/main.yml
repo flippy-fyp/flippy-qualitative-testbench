@@ -15,6 +15,8 @@ jobs:
       run: git lfs checkout
     - name: Install dependencies
       run: npm i
+    - name: Run lint
+      run: npm run lint
     - name: Run test
       run: npm test
     - name: Test build

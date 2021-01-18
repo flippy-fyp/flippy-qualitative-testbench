@@ -28,15 +28,13 @@ const CmdBar = (props: Props) => {
     }
   }, [])
 
-
   const start = () => {
     console.debug(`starting`)
     setLoading({ loading: true, loadingText: `Firing up the follower` })
     // save the cmd to local state
     try {
       window.localStorage.setItem(`cmd`, cmdState.cmd)
-    }
-    catch (err) {
+    } catch (err) {
       // best effort
       console.debug(err)
     }
@@ -49,17 +47,20 @@ const CmdBar = (props: Props) => {
 
       const follower = new Follower(cursorProcessor, cmdState.cmd)
 
-      followerPromiseRef.current = follower.start(
-        () => {
-          console.debug(`Follower ready`)
-          setLoading({ loading: false })
-        },
-        () => {
-          console.debug(`Follower stopped`)
-          followerPromiseRef.current = undefined
-          setLoading({ loading: false })
-          stop()
-        }).catch((err) => {
+      followerPromiseRef.current = follower
+        .start(
+          () => {
+            console.debug(`Follower ready`)
+            setLoading({ loading: false })
+          },
+          () => {
+            console.debug(`Follower stopped`)
+            followerPromiseRef.current = undefined
+            setLoading({ loading: false })
+            stop()
+          }
+        )
+        .catch((err) => {
           setLoading({ loading: false })
           console.error(err)
           message.error(`Something went wrong.`)
@@ -69,8 +70,7 @@ const CmdBar = (props: Props) => {
         ...playerState,
         started: true,
       })
-    }
-    catch (err) {
+    } catch (err) {
       setLoading({ loading: false })
       console.error(err)
       message.error(`Something went wrong`)
@@ -91,33 +91,38 @@ const CmdBar = (props: Props) => {
   const onChangeCmd = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setCmdState({
       ...cmdState,
-      cmd: event.target.value
+      cmd: event.target.value,
     })
   }
 
-  return (<PageHeader
-    style={{ backgroundColor: '#e0e0e0', padding: '3px 12px' }}
-    title={``}
-    subTitle={
-      <Input
-        disabled={started}
-        value={cmdState.cmd}
-        placeholder="Command"
-        style={{ width: `50vw`, fontFamily: `Fira Code, monospace` }}
-        onChange={onChangeCmd}
-      />
-    }
-    extra={
-      <div>
-        <Button disabled={!ready || started || cmdState.cmd.length === 0} onClick={start}>Start</Button>
-        <Button
-          disabled={!ready || !started}
-          danger
-          onClick={stop}
-        >Stop</Button>
-      </div>
-    }
-  />)
+  return (
+    <PageHeader
+      style={{ backgroundColor: '#e0e0e0', padding: '3px 12px' }}
+      title=""
+      subTitle={
+        <Input
+          disabled={started}
+          value={cmdState.cmd}
+          placeholder="Command"
+          style={{ width: `50vw`, fontFamily: `Fira Code, monospace` }}
+          onChange={onChangeCmd}
+        />
+      }
+      extra={
+        <div>
+          <Button
+            disabled={!ready || started || cmdState.cmd.length === 0}
+            onClick={start}
+          >
+            Start
+          </Button>
+          <Button disabled={!ready || !started} danger onClick={stop}>
+            Stop
+          </Button>
+        </div>
+      }
+    />
+  )
 }
 
 export default CmdBar

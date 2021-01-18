@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
+import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay'
 import Sheet from '../../components/Sheet/Sheet'
 import { devMode } from '../../globals'
 import DebugPanel from '../DebugPanel/DebugPanel'
 import Navbar from '../Navbar/Navbar'
-import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay'
 import CmdBar from '../../components/CmdBar/CmdBar'
 import { CursorProcessor } from '../../utils/cursor/cursor'
-import { Follower } from 'src/utils/follower/follower'
 
 export type PlayerState = {
   sheetFile: string | undefined
@@ -21,7 +20,7 @@ export const initialPlayerState: PlayerState = {
   ready: false,
   started: false,
   cursorProcessor: undefined,
-  osmd: undefined
+  osmd: undefined,
 }
 
 export type CmdState = {
@@ -29,12 +28,14 @@ export type CmdState = {
 }
 
 export const initialCmdState: CmdState = {
-  cmd: ``
+  cmd: ``,
 }
-const showDebugPanel = devMode && false;
+const showDebugPanel = devMode && false
 
 const AppLayout = () => {
-  const [playerState, setPlayerState] = useState<PlayerState>(initialPlayerState)
+  const [playerState, setPlayerState] = useState<PlayerState>(
+    initialPlayerState
+  )
   const [cmdState, setCmdState] = useState<CmdState>(initialCmdState)
 
   return (
@@ -46,8 +47,18 @@ const AppLayout = () => {
     >
       <div style={{ position: `fixed`, width: `100%`, top: 0, zIndex: 1000 }}>
         <Navbar playerState={playerState} setPlayerState={setPlayerState} />
-        <CmdBar playerState={playerState} setPlayerState={setPlayerState} cmdState={cmdState} setCmdState={setCmdState} />
-        {showDebugPanel && <DebugPanel playerState={playerState} setPlayerState={setPlayerState} />}
+        <CmdBar
+          playerState={playerState}
+          setPlayerState={setPlayerState}
+          cmdState={cmdState}
+          setCmdState={setCmdState}
+        />
+        {showDebugPanel && (
+          <DebugPanel
+            playerState={playerState}
+            setPlayerState={setPlayerState}
+          />
+        )}
       </div>
       <div style={{ paddingTop: 100 }}>
         <Sheet playerState={playerState} setPlayerState={setPlayerState} />
