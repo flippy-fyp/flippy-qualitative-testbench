@@ -37,7 +37,7 @@ const Navbar = (props: Props) => {
 
   return (<PageHeader
     style={{ backgroundColor: '#f3f3f3', padding: '3px 12px' }}
-    title="Flippy"
+    title="Flippy - Qualitative Testbench"
     subTitle={sheetFile ?? null}
     extra={
       <div>

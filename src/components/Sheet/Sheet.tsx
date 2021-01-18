@@ -39,7 +39,7 @@ const Sheet = (props: Props) => {
       const _osmd = new OSMD(divRef.current as HTMLElement, { followCursor: true })
       await _osmd.load(sheetFile)
       _osmd.render()
-      const cProc = new CursorProcessor(_osmd.cursor)
+      const cProc = new CursorProcessor(_osmd.cursor, _osmd.Sheet)
       setPlayerState({ ...playerState, ready: true, osmd: _osmd, cursorProcessor: cProc })
     }
     catch (err) {
