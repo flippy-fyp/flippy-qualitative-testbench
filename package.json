@@ -13,7 +13,7 @@
     "dev:electron": "NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
     "dev:react": "NODE_ENV=development webpack serve --config webpack.react.config.js --mode development",
     "dist": "electron-builder",
-    "lint": "eslint src --ext .tsx,.ts",
+    "lint": "eslint --ext .tsx,.ts",
     "lint:fix": "npm run lint -- --fix",
     "pack": "electron-builder --dir",
     "test": "ts-mocha -u tdd -r jsdom-global/register --paths src/**/*.spec.ts"
