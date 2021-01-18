@@ -66,5 +66,5 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "js/[name].js",
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [new HtmlWebpackPlugin({ title: '' })],
 };

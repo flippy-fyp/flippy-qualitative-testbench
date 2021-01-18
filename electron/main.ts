@@ -35,6 +35,10 @@ function createWindow() {
         )
     }
 
+    mainWindow.webContents.on(`did-finish-load`, () => {
+        if (mainWindow) mainWindow.setTitle(`Flippy Qualitative Testench`)
+    })
+
     mainWindow.on('closed', () => {
         mainWindow = null
     })
