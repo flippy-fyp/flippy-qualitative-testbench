@@ -80,8 +80,8 @@
       "package.json"
     ],
     "productName": "Flippy Qualitative Testbench",
-    "icon": "assets/icon/favicon.ico",
-    "appId": "tuneapp.flippy",
+    "icon": "src/assets/icon/favicon.ico",
+    "appId": "flippy.qualitative.testbench",
     "directories": {
       "output": "dist"
     }
