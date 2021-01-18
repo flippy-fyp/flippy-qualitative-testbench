@@ -19,7 +19,7 @@
     "test": "ts-mocha -u tdd -r jsdom-global/register --paths src/**/*.spec.ts"
   },
   "dependencies": {
-    "antd": "^4.10.0",
+    "antd": "^4.10.3",
     "binary-search-bounds": "^2.0.4",
     "bluebird": "^3.7.2",
     "core-js": "^3.8.2",
@@ -71,7 +71,7 @@
     "ts-mocha": "^8.0.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^4.3.1",
-    "webpack-dev-server": "^3.11.1"
+    "webpack-dev-server": "^3.11.2"
   },
   "build": {
     "files": [
