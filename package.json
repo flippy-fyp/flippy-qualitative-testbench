@@ -1,5 +1,5 @@
 {
-  "name": "flippy-testbench",
+  "name": "flippy-qualitative-testbench",
   "version": "1.0.0",
   "description": "Testbench",
   "keywords": [],
@@ -13,17 +13,16 @@
     "dev:electron": "NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
     "dev:react": "NODE_ENV=development webpack serve --config webpack.react.config.js --mode development",
     "dist": "electron-builder",
-    "lint": "eslint src --ext .tsx,.ts",
+    "lint": "eslint --ext .tsx,.ts",
     "lint:fix": "npm run lint -- --fix",
     "pack": "electron-builder --dir",
     "test": "ts-mocha -u tdd -r jsdom-global/register --paths src/**/*.spec.ts"
   },
   "dependencies": {
-    "antd": "^4.10.0",
+    "antd": "^4.10.3",
     "binary-search-bounds": "^2.0.4",
     "bluebird": "^3.7.2",
     "core-js": "^3.8.2",
-    "electron": "^11.1.1",
     "opensheetmusicdisplay": "^0.8.7",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
@@ -49,6 +48,7 @@
     "babel-loader": "^8.2.2",
     "canvas": "^2.6.1",
     "css-loader": "^5.0.1",
+    "electron": "^11.2.0",
     "electron-builder": "^22.9.1",
     "eslint": "^7.17.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -71,7 +71,7 @@
     "ts-mocha": "^8.0.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^4.3.1",
-    "webpack-dev-server": "^3.11.1"
+    "webpack-dev-server": "^3.11.2"
   },
   "build": {
     "files": [
@@ -80,8 +80,8 @@
       "package.json"
     ],
     "productName": "Flippy Qualitative Testbench",
-    "icon": "assets/icon/favicon.ico",
-    "appId": "tuneapp.flippy",
+    "icon": "src/assets/icon/favicon.ico",
+    "appId": "flippy.qualitative.testbench",
     "directories": {
       "output": "dist"
     }
