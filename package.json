@@ -22,7 +22,7 @@
     "antd": "^4.10.3",
     "binary-search-bounds": "^2.0.4",
     "bluebird": "^3.7.2",
-    "core-js": "^3.8.2",
+    "core-js": "^3.9.0",
     "opensheetmusicdisplay": "^0.8.7",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
