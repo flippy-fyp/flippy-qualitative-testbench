@@ -48,7 +48,7 @@
     "babel-loader": "^8.2.2",
     "canvas": "^2.6.1",
     "css-loader": "^5.0.1",
-    "electron": "^11.2.0",
+    "electron": "^11.3.0",
     "electron-builder": "^22.9.1",
     "eslint": "^7.17.0",
     "eslint-config-airbnb": "^18.2.1",
