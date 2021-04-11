@@ -19,7 +19,7 @@
     "test": "ts-mocha -u tdd -r jsdom-global/register --paths src/**/*.spec.ts"
   },
   "dependencies": {
-    "antd": "^4.10.3",
+    "antd": "^4.15.1",
     "binary-search-bounds": "^2.0.5",
     "bluebird": "^3.7.2",
     "core-js": "^3.8.2",
