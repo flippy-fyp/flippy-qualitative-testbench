@@ -1,45 +1,21 @@
-import * as cp from 'child_process'
 import Bluebird from 'bluebird'
+import * as udp from 'dgram'
 import { CancellablePromise } from '../bluebird/promise'
 import { CursorProcessor } from '../cursor/cursor'
-
-/**
- * Try to get a number in the last line given an array of string lines.
- *
- * @param lines An array of lines
- */
-export const getLastLineNumber = async (
-    lines: string[]
-): Promise<number | undefined> => {
-    for (let i = lines.length - 1; i >= 0; --i) {
-        const l = lines[i]
-        const num = parseFloat(l)
-        if (!Number.isNaN(num)) {
-            return num
-        }
-    }
-    return undefined
-}
-
 export class Follower {
     private cursorProcessor: CursorProcessor
 
     private cursorProcessorPromise: Bluebird<void> | undefined
 
-    private cmd: string[]
+    private port: number
 
     private started: boolean = false
 
-    private onStop: (() => void) | undefined = undefined
-
     private ready: boolean = false
 
-    constructor(cursorProcessor: CursorProcessor, cmd: string) {
+    constructor(cursorProcessor: CursorProcessor, port: number) {
         this.cursorProcessor = cursorProcessor
-        this.cmd = cmd.trim().split(/[ ,]+/)
-        if (this.cmd.length === 0) {
-            throw new Error(`Empty cmd string`)
-        }
+        this.port = port
     }
 
     /**
@@ -54,18 +30,19 @@ export class Follower {
         }
         return new CancellablePromise<void>(
             async (resolve, reject, onCancel) => {
-                if (onCancel) {
-                    onCancel(() => {
-                        console.debug(`Follower promise cancelled`)
-                        if (this.onStop) {
-                            console.debug(`Follower stopped`)
-                            this.onStop()
-                        }
-                    })
-                }
                 try {
-                    await this.runCmd(onReady, onStop)
-                    resolve()
+                    const server = await this.startServer(onReady, () => {
+                        onStop()
+                        server.close()
+                        resolve()
+                    })
+                    if (onCancel) {
+                        onCancel(() => {
+                            server.close()
+                            console.debug(`Follower promise cancelled`)
+                            onStop()
+                        })
+                    }
                 } catch (err) {
                     reject(err)
                 }
@@ -74,77 +51,62 @@ export class Follower {
     }
 
     /**
+     * Start server
+     *
+     * @param onReady Callback when the follower process is ready
+     * @param onStop Callback when the follower process is stopped
+     */
+    private startServer = async (
+        onReady: () => void,
+        onStop: () => void
+    ): Promise<udp.Socket> => {
+        const server = udp.createSocket(`udp4`)
+
+        server.bind(this.port, `localhost`)
+
+        server.on(`error`, (err) => {
+            onStop()
+            console.error(err)
+        })
+
+        server.on(`message`, (msg) => {
+            console.debug(`Received "${msg}"`)
+            this.processLine(msg.toString(), onReady)
+        })
+
+        server.on(`listening`, () => {
+            const serverAddress = server.address()
+            const { port } = serverAddress
+            const ipaddr = serverAddress.address
+            console.debug(`Server listening at ${ipaddr}:${port}`)
+        })
+
+        return server
+    }
+
+    /**
      * Processes (partial) stdout obtained from the follower process
      *
-     * @param data stdout string data
+     * @param data file data
      * @param onReady Callback when the follower process is ready
+     * @param onStop Callback when the follower process is stopped
      */
-    private processStdout = async (data: string, onReady: () => void) => {
-        const lines = data.split(/\r?\n/).map((s) => s.trim())
-
+    private processLine = async (line: string, onReady: () => void) => {
         if (!this.ready) {
-            if (lines.contains(`READY`)) {
+            if (line === `READY`) {
                 this.ready = true
                 this.cursorProcessor.showCursor()
                 onReady()
             }
-        }
-
-        if (this.ready) {
-            const lastLineNumber = await getLastLineNumber(lines)
-            if (lastLineNumber !== undefined) {
-                if (this.cursorProcessorPromise) {
-                    this.cursorProcessorPromise.cancel()
-                }
-                this.cursorProcessorPromise = this.cursorProcessor.moveCursor(
-                    lastLineNumber
-                )
-            }
-        }
-    }
-
-    /**
-     * Runs the follow command
-     */
-    private runCmd = async (onReady: () => void, onStop: () => void) => {
-        return new Promise<void>((resolve, reject) => {
-            const proc = cp.spawn(this.cmd[0], this.cmd.slice(1))
-            console.debug(`spawned "${this.cmd.join(` `)}"`)
-
-            this.onStop = () => {
-                if (!proc.killed) {
-                    proc.kill(`SIGKILL`)
-                }
-                if (this.cursorProcessorPromise) {
-                    this.cursorProcessorPromise.cancel()
-                    this.cursorProcessor.reset()
-                }
-                onStop()
+        } else {
+            if (this.cursorProcessorPromise) {
+                this.cursorProcessorPromise.cancel()
             }
 
-            let stderrData = ``
-
-            proc.stdout.on(`data`, (data) => {
-                console.debug(`stdout: ${data}`)
-                this.processStdout(data.toString(), onReady)
-            })
-
-            proc.stderr.on(`data`, (data) => {
-                stderrData += data
-            })
-
-            proc.on(`close`, (code) => {
-                console.debug(`Process exited with code ${code}`)
-
-                if (this.onStop) this.onStop()
-
-                if (code !== 0 && code !== null) {
-                    console.error(`stderr: ${stderrData}`)
-                    reject(new Error(`Process exited with code ${code}.`))
-                }
-
-                resolve()
-            })
-        })
+            const timestamp = parseFloat(line)
+            this.cursorProcessorPromise = this.cursorProcessor.moveCursor(
+                timestamp
+            )
+        }
     }
 }
