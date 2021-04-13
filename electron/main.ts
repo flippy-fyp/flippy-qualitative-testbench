@@ -18,7 +18,7 @@ function createWindow() {
             webSecurity: false,
         },
         title: 'Flippy Qualitative Testbench',
-        icon: icon,
+        icon,
     })
     mainWindow.setMenuBarVisibility(false)
 
