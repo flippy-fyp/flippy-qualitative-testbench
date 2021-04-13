@@ -46,11 +46,11 @@ export class CursorProcessor {
      * @param timestamp float, in seconds
      */
     public moveCursor = (timestamp: number): Bluebird<void> => {
-        console.debug(`MoveCursor to timestamp: ${timestamp}`)
+        // console.debug(`MoveCursor to timestamp: ${timestamp}`)
         return new CancellablePromise<void>((resolve, reject, onCancel) => {
             if (onCancel) {
                 onCancel(() => {
-                    console.debug(`moveCursor Cancelled`)
+                    // console.debug(`moveCursor Cancelled`)
                 })
             }
             try {
@@ -58,7 +58,7 @@ export class CursorProcessor {
                     this.cursorTimings,
                     timestamp
                 )
-                console.debug(`MoveCursor to step: ${requiredStep}`)
+                // console.debug(`MoveCursor to step: ${requiredStep}`)
 
                 if (requiredStep < this.currStep) {
                     this.cursor.reset()

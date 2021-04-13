@@ -20,7 +20,7 @@ const CursorDebug = (props: Props) => {
 
   const next = async () => {
     stepRef.current++
-    console.debug(stepRef.current)
+    // console.debug(stepRef.current)
     cursor.next()
   }
 

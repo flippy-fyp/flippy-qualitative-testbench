@@ -32,7 +32,10 @@ const PortBar = (props: Props) => {
 
   const start = () => {
     console.debug(`starting`)
-    setLoading({ loading: true, loadingText: `Firing up the follower` })
+    setLoading({
+      loading: true,
+      loadingText: `You may now start the score follower`,
+    })
     // save the port to local state
     try {
       window.localStorage.setItem(
