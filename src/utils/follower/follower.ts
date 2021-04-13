@@ -70,7 +70,7 @@ export class Follower {
         })
 
         server.on(`message`, (msg) => {
-            console.debug(`Received "${msg}"`)
+            // console.debug(`Received "${msg}"`)
             this.processLine(msg.toString(), onReady)
         })
 
