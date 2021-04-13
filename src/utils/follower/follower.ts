@@ -2,6 +2,7 @@ import Bluebird from 'bluebird'
 import * as udp from 'dgram'
 import { CancellablePromise } from '../bluebird/promise'
 import { CursorProcessor } from '../cursor/cursor'
+
 export class Follower {
     private cursorProcessor: CursorProcessor
 
