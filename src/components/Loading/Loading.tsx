@@ -19,7 +19,7 @@ const Loading = () => {
         {loadingText && (
           <div style={{ padding: 10, fontSize: "1rem" }}>{loadingText}</div>
         )}
-        <div>Hit Reload (Ctrl/Cmd+R) if this hangs...</div>
+        <div>Hit Reload (Ctrl/Cmd+R) if this gets stuck for too long...</div>
       </div>
     </Modal>
   )
