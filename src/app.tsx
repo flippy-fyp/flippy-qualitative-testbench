@@ -3,9 +3,8 @@ import ReactDom from "react-dom"
 import { message } from "antd"
 import AppLayout from "./containers/AppLayout/AppLayout"
 import { LoadingStateProvider } from "./contexts/loadingState"
-import "antd/dist/antd.css"
 import Loading from "./components/Loading/Loading"
-
+import "antd/dist/antd.css"
 const mainElement = document.createElement("div")
 document.body.appendChild(mainElement)
 
