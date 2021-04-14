@@ -36,7 +36,21 @@ function createWindow() {
   }
 
   mainWindow.webContents.on(`did-finish-load`, () => {
-    if (mainWindow) mainWindow.setTitle(`Flippy Qualitative Testench`)
+    if (mainWindow) {
+      mainWindow.setTitle(`Flippy Qualitative Testench`)
+
+      mainWindow.webContents.on("zoom-changed", (_event, zoomDirection) => {
+        if (mainWindow) {
+          const currentZoom = mainWindow.webContents.getZoomFactor()
+          if (zoomDirection === "in" && currentZoom < 5.0) {
+            mainWindow.webContents.zoomFactor = currentZoom + 0.2
+          }
+          if (zoomDirection === "out" && currentZoom > 0.4) {
+            mainWindow.webContents.zoomFactor = currentZoom - 0.2
+          }
+        }
+      })
+    }
   })
 
   mainWindow.on("closed", () => {
