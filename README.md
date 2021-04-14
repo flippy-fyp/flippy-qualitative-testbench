@@ -7,24 +7,28 @@ Score-follower qualitative testbench.
 - Install dependencies
 
 ```bash
-  npm install
+npm install
 ```
 
 - Run these two commands in separate consoles.
 
 ```bash
-  npm run dev:react
-  npm run dev:electron
+npm run dev:react
+npm run dev:electron
 ```
 
 - Run tests
-
 ```bash
-  npm test
+npm test
 ```
 
-- Build
+- Lint
+```bash
+npm run lint
+```
+
+## Building
 
 ```bash
-  npm run build
+npm run dist
 ```
