@@ -1,9 +1,16 @@
 import sys
 import argparse
 import time
+import socket
+
+HOST = "127.0.0.1"
+PORT = 60000
 
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
+
+def encode_str(x: str) -> bytes:
+    return x.encode()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -35,12 +42,6 @@ if __name__ == '__main__':
         default=50,
     )
     parser.add_argument(
-        '--exitcode',
-        type=int,
-        help='Exit code when done',
-        default=0,
-    )
-    parser.add_argument(
         '--startnum',
         type=float,
         help='Start value',
@@ -53,16 +54,17 @@ if __name__ == '__main__':
     interval = args.interval
     diff = args.diff
     limit = args.limit
-    exitcode = args.exitcode
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+        eprint('started')
+        eprint(f"{HOST}:{PORT}")
+        time.sleep(ready)
+        s.sendto(encode_str('READY'), (HOST, PORT))
 
-    eprint('started')
-    time.sleep(ready)
-    print('READY', flush=True)
-
-    acc = args.startnum
-    for i in range(limit):
-        print(acc, flush=True)
-        time.sleep(interval)
-        acc += diff
-
-    sys.exit(exitcode)
+        acc = args.startnum
+        for i in range(limit):
+            s.sendto(encode_str(f'{acc}'), (HOST, PORT))
+            eprint(acc)
+            time.sleep(interval)
+            acc += diff
+        
+        s.close()

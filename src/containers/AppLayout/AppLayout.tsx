@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay'
-import Sheet from '../../components/Sheet/Sheet'
-import { devMode } from '../../globals'
-import DebugPanel from '../DebugPanel/DebugPanel'
-import Navbar from '../Navbar/Navbar'
-import CmdBar from '../../components/CmdBar/CmdBar'
-import { CursorProcessor } from '../../utils/cursor/cursor'
+import React, { useState } from "react"
+import { OpenSheetMusicDisplay } from "opensheetmusicdisplay"
+import Sheet from "../../components/Sheet/Sheet"
+import { devMode } from "../../consts"
+import DebugPanel from "../DebugPanel/DebugPanel"
+import Navbar from "../Navbar/Navbar"
+import PortBar from "../../components/PortBar/PortBar"
+import { CursorProcessor } from "../../utils/cursor/cursor"
 
 export type PlayerState = {
   sheetFile: string | undefined
@@ -23,12 +23,12 @@ export const initialPlayerState: PlayerState = {
   osmd: undefined,
 }
 
-export type CmdState = {
-  cmd: string
+export type PortState = {
+  port: number
 }
 
-export const initialCmdState: CmdState = {
-  cmd: ``,
+export const initialPortState: PortState = {
+  port: 8080,
 }
 const showDebugPanel = devMode && false
 
@@ -36,7 +36,7 @@ const AppLayout = () => {
   const [playerState, setPlayerState] = useState<PlayerState>(
     initialPlayerState
   )
-  const [cmdState, setCmdState] = useState<CmdState>(initialCmdState)
+  const [portState, setPortState] = useState<PortState>(initialPortState)
 
   return (
     <div
@@ -47,11 +47,11 @@ const AppLayout = () => {
     >
       <div style={{ position: `fixed`, width: `100%`, top: 0, zIndex: 1000 }}>
         <Navbar playerState={playerState} setPlayerState={setPlayerState} />
-        <CmdBar
+        <PortBar
           playerState={playerState}
           setPlayerState={setPlayerState}
-          cmdState={cmdState}
-          setCmdState={setCmdState}
+          portState={portState}
+          setPortState={setPortState}
         />
         {showDebugPanel && (
           <DebugPanel

@@ -1,7 +1,7 @@
-import { Promise as cancellablePromise } from 'bluebird'
+import { Promise as cancellablePromise } from "bluebird"
 
 cancellablePromise.config({
-    cancellation: true,
+  cancellation: true,
 })
 
 export const CancellablePromise = cancellablePromise

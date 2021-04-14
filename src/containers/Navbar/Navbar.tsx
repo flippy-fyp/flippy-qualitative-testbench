@@ -1,7 +1,7 @@
-import React from 'react'
-import { PageHeader, Button } from 'antd'
-import { remote } from 'electron'
-import { initialPlayerState, PlayerState } from '../AppLayout/AppLayout'
+import React from "react"
+import { PageHeader, Button } from "antd"
+import { remote } from "electron"
+import { initialPlayerState, PlayerState } from "../AppLayout/AppLayout"
 
 interface Props {
   playerState: PlayerState
@@ -37,7 +37,7 @@ const Navbar = (props: Props) => {
 
   return (
     <PageHeader
-      style={{ backgroundColor: '#f3f3f3', padding: '3px 12px' }}
+      style={{ backgroundColor: "#f3f3f3", padding: "3px 12px" }}
       title="Flippy - Qualitative Testbench"
       subTitle={sheetFile ?? null}
       extra={

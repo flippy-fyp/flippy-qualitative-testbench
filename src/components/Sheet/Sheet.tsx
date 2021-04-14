@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from 'react'
-import { message } from 'antd'
-import { OpenSheetMusicDisplay as OSMD } from 'opensheetmusicdisplay'
-import { useLoadingState } from '../../contexts/loadingState'
+import React, { useEffect, useRef } from "react"
+import { message } from "antd"
+import { OpenSheetMusicDisplay as OSMD } from "opensheetmusicdisplay"
+import { useLoadingState } from "../../contexts/loadingState"
 import {
   initialPlayerState,
   PlayerState,
-} from '../../containers/AppLayout/AppLayout'
-import { CursorProcessor } from '../../utils/cursor/cursor'
+} from "../../containers/AppLayout/AppLayout"
+import { CursorProcessor } from "../../utils/cursor/cursor"
 
 interface Props {
   playerState: PlayerState
@@ -15,7 +15,7 @@ interface Props {
 
 const Sheet = (props: Props) => {
   const divRef = useRef<HTMLDivElement>(null)
-  const [_, setLoadingState] = useLoadingState()
+  const [, setLoadingState] = useLoadingState()
   const { playerState, setPlayerState } = props
   const { sheetFile } = playerState
 
@@ -27,7 +27,7 @@ const Sheet = (props: Props) => {
   // otherwise it will draw at the bottom
   const clearDivRef = async () => {
     if (divRef && divRef.current) {
-      divRef.current.innerHTML = ''
+      divRef.current.innerHTML = ""
     }
   }
 
