@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay'
-import Sheet from '../../components/Sheet/Sheet'
-import { devMode } from '../../consts'
-import DebugPanel from '../DebugPanel/DebugPanel'
-import Navbar from '../Navbar/Navbar'
-import PortBar from '../../components/PortBar/PortBar'
-import { CursorProcessor } from '../../utils/cursor/cursor'
+import React, { useState } from "react"
+import { OpenSheetMusicDisplay } from "opensheetmusicdisplay"
+import Sheet from "../../components/Sheet/Sheet"
+import { devMode } from "../../consts"
+import DebugPanel from "../DebugPanel/DebugPanel"
+import Navbar from "../Navbar/Navbar"
+import PortBar from "../../components/PortBar/PortBar"
+import { CursorProcessor } from "../../utils/cursor/cursor"
 
 export type PlayerState = {
   sheetFile: string | undefined

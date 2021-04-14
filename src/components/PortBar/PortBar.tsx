@@ -1,11 +1,11 @@
-import { PageHeader, Button, Input, message } from 'antd'
-import Bluebird from 'bluebird'
-import React, { useEffect, useRef } from 'react'
-import { portLocalStorageKey } from '../../consts'
-import { useLoadingState } from '../../contexts/loadingState'
-import { Follower } from '../../utils/follower/follower'
-import { PortState, PlayerState } from '../../containers/AppLayout/AppLayout'
-import { parsePortString } from '../../utils/port/port'
+import { PageHeader, Button, Input, message } from "antd"
+import Bluebird from "bluebird"
+import React, { useEffect, useRef } from "react"
+import { portLocalStorageKey } from "../../consts"
+import { useLoadingState } from "../../contexts/loadingState"
+import { Follower } from "../../utils/follower/follower"
+import { PortState, PlayerState } from "../../containers/AppLayout/AppLayout"
+import { parsePortString } from "../../utils/port/port"
 
 interface Props {
   playerState: PlayerState
@@ -105,11 +105,11 @@ const PortBar = (props: Props) => {
 
   return (
     <PageHeader
-      style={{ backgroundColor: '#e0e0e0', padding: '3px 12px' }}
+      style={{ backgroundColor: "#e0e0e0", padding: "3px 12px" }}
       title=""
       subTitle={
         <>
-          Port number:{' '}
+          Port number:{" "}
           <Input
             disabled={started}
             value={portState.port}

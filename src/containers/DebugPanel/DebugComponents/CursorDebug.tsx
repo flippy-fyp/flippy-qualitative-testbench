@@ -1,6 +1,6 @@
-import React, { useRef } from 'react'
-import { Cursor } from 'opensheetmusicdisplay'
-import { Button } from 'antd'
+import React, { useRef } from "react"
+import { Cursor } from "opensheetmusicdisplay"
+import { Button } from "antd"
 
 interface Props {
   cursor: Cursor
@@ -31,7 +31,7 @@ const CursorDebug = (props: Props) => {
 
   return (
     <div>
-      Cursor:{'   '}
+      Cursor:{"   "}
       <Button onClick={hide}>Hide</Button>
       <Button onClick={show}>Show</Button>
       <Button onClick={next}>Next</Button>

@@ -1,7 +1,7 @@
-import React from 'react'
-import { PageHeader } from 'antd'
-import { PlayerState } from '../AppLayout/AppLayout'
-import CursorDebug from './DebugComponents/CursorDebug'
+import React from "react"
+import { PageHeader } from "antd"
+import { PlayerState } from "../AppLayout/AppLayout"
+import CursorDebug from "./DebugComponents/CursorDebug"
 
 const cursorDebug = true
 
@@ -16,11 +16,11 @@ const DebugPanel = (props: Props) => {
 
   return (
     <PageHeader
-      style={{ backgroundColor: '#ffaaaa', padding: '3px 12px' }}
+      style={{ backgroundColor: "#ffaaaa", padding: "3px 12px" }}
       title="DEBUG PANEL"
       extra={
         <span>
-          {osmd && <span>OSMD OK{'  '}</span>}
+          {osmd && <span>OSMD OK{"  "}</span>}
           {osmd && cursorDebug && <CursorDebug cursor={osmd.cursor} />}
         </span>
       }
