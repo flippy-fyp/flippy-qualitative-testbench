@@ -67,7 +67,6 @@ export class Follower {
     })
 
     server.on(`message`, (msg) => {
-      // console.debug(`Received "${msg}"`)
       this.processLine(msg.toString())
     })
 
@@ -77,6 +76,7 @@ export class Follower {
       const ipaddr = serverAddress.address
       console.debug(`Server listening at ${ipaddr}:${port}`)
       onReady()
+      this.cursorProcessor.showCursor()
     })
 
     return server

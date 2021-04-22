@@ -61,8 +61,6 @@ export class CursorProcessor {
           this.cursor.reset()
           this.currStep = 0
         }
-        if (this.cursor.hidden) this.cursor.show()
-
         while (this.currStep < requiredStep) {
           this.cursor.next()
           this.currStep++
