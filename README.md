@@ -29,6 +29,9 @@ npm run lint
 
 ## Building
 
+_Currently only tested on Windows._
+
 ```bash
+npm run build
 npm run dist
 ```
