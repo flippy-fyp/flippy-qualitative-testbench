@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Testbench",
   "keywords": [],
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "author": "lhl2617",
   "main": "./dist/main.js",
   "scripts": {
