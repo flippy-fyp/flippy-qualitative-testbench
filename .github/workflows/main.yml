@@ -52,7 +52,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-    needs: [build]
+    needs: [lint, test]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
