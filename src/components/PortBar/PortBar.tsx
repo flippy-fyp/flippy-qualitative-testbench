@@ -34,7 +34,6 @@ const PortBar = (props: Props) => {
     console.debug(`starting`)
     setLoading({
       loading: true,
-      loadingText: `You may now start the score follower`,
     })
     // save the port to local state
     try {

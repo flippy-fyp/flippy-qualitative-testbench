@@ -12,8 +12,6 @@ export class Follower {
 
   private started: boolean = false
 
-  private ready: boolean = false
-
   constructor(cursorProcessor: CursorProcessor, port: number) {
     this.cursorProcessor = cursorProcessor
     this.port = port
@@ -22,12 +20,12 @@ export class Follower {
   /**
    * Returns a cancellable promise
    *
-   * @param onReady Callback when the follower process is ready
+   * @param onReady Callback when the server is ready
    * @param onStop Callback when the follower process is stopped
    */
   public start = (onReady: () => void, onStop: () => void) => {
     if (this.started) {
-      throw new Error(`Follower already started`)
+      throw new Error(`Already started`)
     }
     return new CancellablePromise<void>(async (resolve, reject, onCancel) => {
       try {
@@ -52,7 +50,7 @@ export class Follower {
   /**
    * Start server
    *
-   * @param onReady Callback when the follower process is ready
+   * @param onReady Callback when the server is ready
    * @param onStop Callback when the follower process is stopped
    */
   private startServer = async (
@@ -69,8 +67,7 @@ export class Follower {
     })
 
     server.on(`message`, (msg) => {
-      // console.debug(`Received "${msg}"`)
-      this.processLine(msg.toString(), onReady)
+      this.processLine(msg.toString())
     })
 
     server.on(`listening`, () => {
@@ -78,32 +75,23 @@ export class Follower {
       const { port } = serverAddress
       const ipaddr = serverAddress.address
       console.debug(`Server listening at ${ipaddr}:${port}`)
+      onReady()
+      this.cursorProcessor.showCursor()
     })
 
     return server
   }
 
   /**
-   * Processes (partial) stdout obtained from the follower process
+   * Processes timestamp message obtained from the follower process
    *
-   * @param data file data
-   * @param onReady Callback when the follower process is ready
-   * @param onStop Callback when the follower process is stopped
+   * @param msg string timestamp
    */
-  private processLine = async (line: string, onReady: () => void) => {
-    if (!this.ready) {
-      if (line === `READY`) {
-        this.ready = true
-        this.cursorProcessor.showCursor()
-        onReady()
-      }
-    } else {
-      if (this.cursorProcessorPromise) {
-        this.cursorProcessorPromise.cancel()
-      }
-
-      const timestamp = parseFloat(line)
-      this.cursorProcessorPromise = this.cursorProcessor.moveCursor(timestamp)
+  private processLine = async (msg: string) => {
+    const timestamp = parseFloat(msg)
+    if (this.cursorProcessorPromise) {
+      this.cursorProcessorPromise.cancel()
     }
+    this.cursorProcessorPromise = this.cursorProcessor.moveCursor(timestamp)
   }
 }
