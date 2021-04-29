@@ -1,0 +1,100 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  target-branch: dev
+  ignore:
+  - dependency-name: webpack
+    versions:
+    - ">= 5.a, < 6"
+  - dependency-name: electron-builder
+    versions:
+    - 22.10.5
+  - dependency-name: "@teamsupercell/typings-for-css-modules-loader"
+    versions:
+    - 2.5.1
+  - dependency-name: eslint-config-airbnb-typescript
+    versions:
+    - 12.3.1
+  - dependency-name: eslint-config-prettier
+    versions:
+    - 8.1.0
+    - 8.2.0
+  - dependency-name: css-loader
+    versions:
+    - 5.2.1
+  - dependency-name: "@babel/plugin-proposal-class-properties"
+    versions:
+    - 7.13.0
+  - dependency-name: "@types/mocha"
+    versions:
+    - 8.2.2
+  - dependency-name: react-dom
+    versions:
+    - 17.0.2
+  - dependency-name: react
+    versions:
+    - 17.0.2
+  - dependency-name: typescript
+    versions:
+    - 4.2.4
+  - dependency-name: antd
+    versions:
+    - 4.11.1
+    - 4.11.2
+    - 4.12.2
+    - 4.12.3
+    - 4.13.0
+    - 4.13.1
+    - 4.14.0
+    - 4.14.1
+    - 4.15.0
+  - dependency-name: core-js
+    versions:
+    - 3.10.0
+    - 3.8.3
+    - 3.9.0
+    - 3.9.1
+  - dependency-name: "@typescript-eslint/parser"
+    versions:
+    - 4.14.1
+    - 4.14.2
+    - 4.15.0
+    - 4.15.1
+    - 4.15.2
+    - 4.16.1
+    - 4.17.0
+    - 4.18.0
+    - 4.19.0
+    - 4.20.0
+  - dependency-name: "@typescript-eslint/eslint-plugin"
+    versions:
+    - 4.14.1
+    - 4.14.2
+    - 4.15.0
+    - 4.15.1
+    - 4.15.2
+    - 4.16.1
+    - 4.17.0
+    - 4.18.0
+    - 4.19.0
+  - dependency-name: eslint
+    versions:
+    - 7.19.0
+    - 7.20.0
+    - 7.21.0
+    - 7.22.0
+  - dependency-name: electron
+    versions:
+    - 11.2.1
+    - 11.2.3
+    - 11.3.0
+    - 12.0.0
+    - 12.0.1
+  - dependency-name: webpack-cli
+    versions:
+    - 4.4.0
+    - 4.5.0
