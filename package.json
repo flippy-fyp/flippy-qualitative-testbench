@@ -40,7 +40,7 @@
     "@types/bluebird": "^3.5.33",
     "@types/expect": "^24.3.0",
     "@types/mocha": "^8.2.2",
-    "@types/react": "^17.0.3",
+    "@types/react": "^17.0.4",
     "@types/react-dom": "^17.0.3",
     "@types/shell-escape": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
