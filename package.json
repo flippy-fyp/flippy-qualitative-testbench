@@ -4,7 +4,7 @@
   "description": "Testbench",
   "keywords": [],
   "license": "GPL-3.0-or-later",
-  "author": "lhl2617",
+  "author": "lhl2617 <l.h.lee2617@gmail.com>",
   "main": "./dist/main.js",
   "scripts": {
     "build": "npm run build:electron && npm run build:react",
