@@ -78,6 +78,12 @@
     "appId": "flippy.qualitative.testbench",
     "directories": {
       "output": "dist"
+    },
+    "linux": {
+      "icon": "src/assets/icon/favicon.png",
+      "target": [
+        "deb"
+      ]
     }
   }
 }
