@@ -10,7 +10,7 @@ Score-follower qualitative testbench.
 npm install
 ```
 
-- Run these two commands in separate consoles.
+- Run these two commands in separate terminals.
 
 ```bash
 npm run dev:react
@@ -28,8 +28,6 @@ npm run lint
 ```
 
 ## Building
-
-_Currently only tested on Windows._
 
 ```bash
 npm run build
