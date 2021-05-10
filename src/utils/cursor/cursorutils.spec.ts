@@ -28,27 +28,27 @@ suite(`Test getTimestampFromVoiceEntries`, () => {
   }[] = [
     {
       name: "Empty",
-      entries: ([] as unknown) as VoiceEntry[],
+      entries: [] as unknown as VoiceEntry[],
       want: undefined,
     },
     {
       name: "One entry",
       entries: [
-        ({
+        {
           Notes: [new MockNote(new Fraction(1, 2))],
-        } as unknown) as VoiceEntry,
+        } as unknown as VoiceEntry,
       ],
       want: new Fraction(1, 2),
     },
     {
       name: "One empty and one with one entry",
       entries: [
-        ({
+        {
           Notes: [],
-        } as unknown) as VoiceEntry,
-        ({
+        } as unknown as VoiceEntry,
+        {
           Notes: [new MockNote(new Fraction(1, 2))],
-        } as unknown) as VoiceEntry,
+        } as unknown as VoiceEntry,
       ],
       want: new Fraction(1, 2),
     },
