@@ -85,6 +85,9 @@
       "target": [
         "deb"
       ]
+    },
+    "mac": {
+      "icon": "src/assets/icon/favicon.png"
     }
   }
 }
