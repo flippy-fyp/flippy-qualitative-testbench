@@ -2,6 +2,14 @@
 
 Score-follower qualitative testbench.
 
+Allows score-followers to follow MusicXML scores via a cursor.
+
+## Installation
+
+Pre-built installers for Mac, Windows and Linux are available in [Releases](https://github.com/flippy-fyp/flippy-qualitative-testbench/releases).
+
+If you wish to build (and package) this app yourself, see the Building and Packaging sections below.
+
 ## Development Setup
 
 - Install dependencies
@@ -31,5 +39,10 @@ npm run lint
 
 ```bash
 npm run build
+```
+
+## Packaging
+
+```bash
 npm run dist
 ```
