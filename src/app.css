@@ -1,0 +1,9 @@
+.appTitle {
+  transition: transform 0.5s;
+  color: black;
+}
+
+.appTitle:hover {
+  color: #0984e3;
+  cursor: pointer;
+}

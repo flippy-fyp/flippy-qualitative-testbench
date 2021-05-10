@@ -1,6 +1,6 @@
 import React from "react"
 import { PageHeader, Button } from "antd"
-import { remote } from "electron"
+import { remote, shell } from "electron"
 import { initialPlayerState, PlayerState } from "../AppLayout/AppLayout"
 
 interface Props {
@@ -35,10 +35,20 @@ const Navbar = (props: Props) => {
     setPlayerState(initialPlayerState)
   }
 
+  const openGHRepoInExternalBrowser = async () => {
+    shell.openExternal(
+      `https://github.com/flippy-fyp/flippy-qualitative-testbench`
+    )
+  }
+
   return (
     <PageHeader
       style={{ backgroundColor: "#f3f3f3", padding: "3px 12px" }}
-      title="Flippy - Qualitative Testbench"
+      title={
+        <div onClick={openGHRepoInExternalBrowser} className="appTitle">
+          Flippy Qualitative Testbench
+        </div>
+      }
       subTitle={sheetFile ?? null}
       extra={
         <div>
