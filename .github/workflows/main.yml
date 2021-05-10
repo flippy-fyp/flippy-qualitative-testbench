@@ -73,7 +73,7 @@ jobs:
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != true
         run: npm i
-      - name: Build/release Electron app
+      - name: Build (and release) Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{ secrets.github_token }}
