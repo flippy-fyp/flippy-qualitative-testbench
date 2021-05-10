@@ -33,9 +33,8 @@ export const initialPortState: PortState = {
 const showDebugPanel = devMode && false
 
 const AppLayout = () => {
-  const [playerState, setPlayerState] = useState<PlayerState>(
-    initialPlayerState
-  )
+  const [playerState, setPlayerState] =
+    useState<PlayerState>(initialPlayerState)
   const [portState, setPortState] = useState<PortState>(initialPortState)
 
   return (
