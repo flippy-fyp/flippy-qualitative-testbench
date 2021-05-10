@@ -26,26 +26,13 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: path.join(__dirname, 'src'),
-        use: [
-          "css-loader",
-          "@teamsupercell/typings-for-css-modules-loader",
-          {
-            loader: "css-loader",
-            options: { modules: true }
-          }
-        ]
-      },
-      {
-        test: /\.css$/,
-        exclude: path.join(__dirname, 'src'),
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.svg$/,
         use: [
           {
-            loader: 'svg-url-loader',
+            loader: "svg-url-loader",
             options: {
               limit: 10000,
             },
@@ -66,5 +53,5 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "js/[name].js",
   },
-  plugins: [new HtmlWebpackPlugin({ title: '' })],
+  plugins: [new HtmlWebpackPlugin({ title: "" })],
 };
