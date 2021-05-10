@@ -83,7 +83,7 @@
     "linux": {
       "icon": "src/assets/icon/favicon.png",
       "target": [
-        "deb"
+        "AppImage"
       ]
     },
     "mac": {
