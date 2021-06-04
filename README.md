@@ -70,12 +70,16 @@ npm run build
 npm run dist
 ```
 
+## More Information
+
+* Detailed documentation and implementation details can be found in the [project report](https://github.com/flippy-fyp/flippy-report/blob/main/main.pdf).
+
 ## Contributing
 
 * File bugs and/or feature requests in the [GitHub repository](https://github.com/flippy/flippy-qualitative-testbench)
 * Pull requests are welcome in the [GitHub repository](https://github.com/flippy/flippy-qualitative-testbench)
 * Buy me a Coffee ☕️ via [PayPal](https://paypal.me/lhl2617)
 
-## More Information
+## Citing
 
-* Detailed documentation and implementation details can be found in the [project report](https://github.com/flippy-fyp/flippy-report/blob/main/main.pdf).
+TBA.
