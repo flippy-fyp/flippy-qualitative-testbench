@@ -35,6 +35,17 @@ function createWindow() {
     )
   }
 
+  // hack to prevent compounded zooms after reloading
+  mainWindow.webContents.on(`did-start-loading`, () => {
+    if (mainWindow) {
+      mainWindow.webContents.on(
+        `zoom-changed`,
+        // eslint-disable-next-line unused-imports/no-unused-vars
+        (_event, _zoomDirection) => undefined
+      )
+    }
+  })
+
   mainWindow.webContents.on(`did-finish-load`, () => {
     if (mainWindow) {
       mainWindow.setTitle(`Flippy Qualitative Testench`)
@@ -43,10 +54,10 @@ function createWindow() {
         if (mainWindow) {
           const currentZoom = mainWindow.webContents.getZoomFactor()
           if (zoomDirection === "in" && currentZoom < 5.0) {
-            mainWindow.webContents.zoomFactor = currentZoom + 0.2
+            mainWindow.webContents.zoomFactor = currentZoom + 0.1
           }
-          if (zoomDirection === "out" && currentZoom > 0.4) {
-            mainWindow.webContents.zoomFactor = currentZoom - 0.2
+          if (zoomDirection === "out" && currentZoom > 0.2) {
+            mainWindow.webContents.zoomFactor = currentZoom - 0.1
           }
         }
       })
