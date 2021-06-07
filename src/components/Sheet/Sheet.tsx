@@ -25,14 +25,17 @@ const Sheet = (props: Props) => {
 
   // clear the innerHTML of the div before we can redraw
   // otherwise it will draw at the bottom
-  const clearDivRef = async () => {
-    if (divRef && divRef.current) {
-      divRef.current.innerHTML = ""
+  const clear = async () => {
+    if (divRef.current) {
+      divRef.current.innerHTML = ``
+    }
+    if (playerState.osmd) {
+      playerState.osmd.clear()
     }
   }
 
   const loadFile = async () => {
-    clearDivRef()
+    clear()
     if (!sheetFile) {
       setPlayerState(initialPlayerState)
       return
