@@ -48,7 +48,7 @@ function createWindow() {
 
   mainWindow.webContents.on(`did-finish-load`, () => {
     if (mainWindow) {
-      mainWindow.setTitle(`Flippy Qualitative Testench`)
+      mainWindow.setTitle(`Flippy Qualitative Testbench`)
 
       mainWindow.webContents.on("zoom-changed", (_event, zoomDirection) => {
         if (mainWindow) {
