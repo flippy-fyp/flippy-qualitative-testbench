@@ -72,7 +72,7 @@ npm run dist
 
 ## More Information
 
-* Detailed documentation and implementation details can be found in the [project report](https://github.com/flippy-fyp/flippy-report/blob/main/main.pdf).
+* Detailed documentation and implementation details can be found in the [project report](https://arxiv.org/abs/2205.03247).
 
 ## Contributing
 
@@ -82,4 +82,16 @@ npm run dist
 
 ## Citing
 
-TBA.
+### BibTeX
+```
+@misc{https://doi.org/10.48550/arxiv.2205.03247,
+  doi = {10.48550/ARXIV.2205.03247},
+  url = {https://arxiv.org/abs/2205.03247},
+  author = {Lee, Lin Hao},
+  keywords = {Sound (cs.SD), Audio and Speech Processing (eess.AS), FOS: Computer and information sciences, FOS: Computer and information sciences, FOS: Electrical engineering, electronic engineering, information engineering, FOS: Electrical engineering, electronic engineering, information engineering},
+  title = {Musical Score Following and Audio Alignment},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {Creative Commons Attribution 4.0 International}
+}
+```
